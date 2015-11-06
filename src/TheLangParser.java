@@ -1,4 +1,4 @@
-// $ANTLR 3.4 TheLang.g 2015-11-06 01:56:01
+// $ANTLR 3.4 TheLang.g 2015-11-06 10:08:41
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -2525,7 +2525,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
             // AST REWRITE
-            // elements: PROGRAM, stmt, END, decl
+            // elements: decl, PROGRAM, stmt, END
             // token labels: 
             // rule labels: retval
             // token list labels: 
