@@ -1,1745 +1,207 @@
-// $ANTLR 3.4 TheLang.g 2015-11-06 10:08:41
+// Generated from TheLang.g4 by ANTLR 4.5.1
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.misc.*;
 
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-
-@SuppressWarnings({"all", "warnings", "unchecked"})
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class TheLangLexer extends Lexer {
-    public static final int EOF=-1;
-    public static final int AND=4;
-    public static final int ASSIGN=5;
-    public static final int COLON=6;
-    public static final int COMMENT=7;
-    public static final int DIV=8;
-    public static final int DO=9;
-    public static final int ELSE=10;
-    public static final int END=11;
-    public static final int EQ=12;
-    public static final int FALSE=13;
-    public static final int FI=14;
-    public static final int GE=15;
-    public static final int GT=16;
-    public static final int HIGH=17;
-    public static final int IDENTIFIER=18;
-    public static final int IF=19;
-    public static final int INT=20;
-    public static final int INTEGER=21;
-    public static final int LBRACE=22;
-    public static final int LBRACKET=23;
-    public static final int LE=24;
-    public static final int LETTER=25;
-    public static final int LOW=26;
-    public static final int LPAREN=27;
-    public static final int LT=28;
-    public static final int MINUS=29;
-    public static final int MUL=30;
-    public static final int NEQ=31;
-    public static final int NOT=32;
-    public static final int OD=33;
-    public static final int OR=34;
-    public static final int PLUS=35;
-    public static final int PROGRAM=36;
-    public static final int RBRACE=37;
-    public static final int RBRACKET=38;
-    public static final int READ=39;
-    public static final int RPAREN=40;
-    public static final int SEMI=41;
-    public static final int SKIP=42;
-    public static final int THEN=43;
-    public static final int TRUE=44;
-    public static final int WHILE=45;
-    public static final int WRITE=46;
-    public static final int WS=47;
-
-    // delegates
-    // delegators
-    public Lexer[] getDelegates() {
-        return new Lexer[] {};
-    }
-
-    public TheLangLexer() {} 
-    public TheLangLexer(CharStream input) {
-        this(input, new RecognizerSharedState());
-    }
-    public TheLangLexer(CharStream input, RecognizerSharedState state) {
-        super(input,state);
-    }
-    public String getGrammarFileName() { return "TheLang.g"; }
-
-    // $ANTLR start "AND"
-    public final void mAND() throws RecognitionException {
-        try {
-            int _type = AND;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:7:5: ( '&' )
-            // TheLang.g:7:7: '&'
-            {
-            match('&'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "AND"
-
-    // $ANTLR start "ASSIGN"
-    public final void mASSIGN() throws RecognitionException {
-        try {
-            int _type = ASSIGN;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:8:8: ( ':=' )
-            // TheLang.g:8:10: ':='
-            {
-            match(":="); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "ASSIGN"
-
-    // $ANTLR start "COLON"
-    public final void mCOLON() throws RecognitionException {
-        try {
-            int _type = COLON;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:9:7: ( ':' )
-            // TheLang.g:9:9: ':'
-            {
-            match(':'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "COLON"
-
-    // $ANTLR start "DIV"
-    public final void mDIV() throws RecognitionException {
-        try {
-            int _type = DIV;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:10:5: ( '/' )
-            // TheLang.g:10:7: '/'
-            {
-            match('/'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "DIV"
-
-    // $ANTLR start "DO"
-    public final void mDO() throws RecognitionException {
-        try {
-            int _type = DO;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:11:4: ( 'do' )
-            // TheLang.g:11:6: 'do'
-            {
-            match("do"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "DO"
-
-    // $ANTLR start "ELSE"
-    public final void mELSE() throws RecognitionException {
-        try {
-            int _type = ELSE;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:12:6: ( 'else' )
-            // TheLang.g:12:8: 'else'
-            {
-            match("else"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "ELSE"
-
-    // $ANTLR start "END"
-    public final void mEND() throws RecognitionException {
-        try {
-            int _type = END;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:13:5: ( 'end' )
-            // TheLang.g:13:7: 'end'
-            {
-            match("end"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "END"
-
-    // $ANTLR start "EQ"
-    public final void mEQ() throws RecognitionException {
-        try {
-            int _type = EQ;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:14:4: ( '=' )
-            // TheLang.g:14:6: '='
-            {
-            match('='); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "EQ"
-
-    // $ANTLR start "FALSE"
-    public final void mFALSE() throws RecognitionException {
-        try {
-            int _type = FALSE;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:15:7: ( 'false' )
-            // TheLang.g:15:9: 'false'
-            {
-            match("false"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "FALSE"
-
-    // $ANTLR start "FI"
-    public final void mFI() throws RecognitionException {
-        try {
-            int _type = FI;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:16:4: ( 'fi' )
-            // TheLang.g:16:6: 'fi'
-            {
-            match("fi"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "FI"
-
-    // $ANTLR start "GE"
-    public final void mGE() throws RecognitionException {
-        try {
-            int _type = GE;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:17:4: ( '>=' )
-            // TheLang.g:17:6: '>='
-            {
-            match(">="); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "GE"
-
-    // $ANTLR start "GT"
-    public final void mGT() throws RecognitionException {
-        try {
-            int _type = GT;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:18:4: ( '>' )
-            // TheLang.g:18:6: '>'
-            {
-            match('>'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "GT"
-
-    // $ANTLR start "HIGH"
-    public final void mHIGH() throws RecognitionException {
-        try {
-            int _type = HIGH;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:19:6: ( 'high' )
-            // TheLang.g:19:8: 'high'
-            {
-            match("high"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "HIGH"
-
-    // $ANTLR start "IF"
-    public final void mIF() throws RecognitionException {
-        try {
-            int _type = IF;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:20:4: ( 'if' )
-            // TheLang.g:20:6: 'if'
-            {
-            match("if"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "IF"
-
-    // $ANTLR start "INT"
-    public final void mINT() throws RecognitionException {
-        try {
-            int _type = INT;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:21:5: ( 'int' )
-            // TheLang.g:21:7: 'int'
-            {
-            match("int"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "INT"
-
-    // $ANTLR start "LBRACE"
-    public final void mLBRACE() throws RecognitionException {
-        try {
-            int _type = LBRACE;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:22:8: ( '{' )
-            // TheLang.g:22:10: '{'
-            {
-            match('{'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "LBRACE"
-
-    // $ANTLR start "LBRACKET"
-    public final void mLBRACKET() throws RecognitionException {
-        try {
-            int _type = LBRACKET;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:23:10: ( '[' )
-            // TheLang.g:23:12: '['
-            {
-            match('['); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "LBRACKET"
-
-    // $ANTLR start "LE"
-    public final void mLE() throws RecognitionException {
-        try {
-            int _type = LE;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:24:4: ( '<=' )
-            // TheLang.g:24:6: '<='
-            {
-            match("<="); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "LE"
-
-    // $ANTLR start "LOW"
-    public final void mLOW() throws RecognitionException {
-        try {
-            int _type = LOW;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:25:5: ( 'low' )
-            // TheLang.g:25:7: 'low'
-            {
-            match("low"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "LOW"
-
-    // $ANTLR start "LPAREN"
-    public final void mLPAREN() throws RecognitionException {
-        try {
-            int _type = LPAREN;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:26:8: ( '(' )
-            // TheLang.g:26:10: '('
-            {
-            match('('); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "LPAREN"
-
-    // $ANTLR start "LT"
-    public final void mLT() throws RecognitionException {
-        try {
-            int _type = LT;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:27:4: ( '<' )
-            // TheLang.g:27:6: '<'
-            {
-            match('<'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "LT"
-
-    // $ANTLR start "MINUS"
-    public final void mMINUS() throws RecognitionException {
-        try {
-            int _type = MINUS;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:28:7: ( '-' )
-            // TheLang.g:28:9: '-'
-            {
-            match('-'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "MINUS"
-
-    // $ANTLR start "MUL"
-    public final void mMUL() throws RecognitionException {
-        try {
-            int _type = MUL;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:29:5: ( '*' )
-            // TheLang.g:29:7: '*'
-            {
-            match('*'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "MUL"
-
-    // $ANTLR start "NEQ"
-    public final void mNEQ() throws RecognitionException {
-        try {
-            int _type = NEQ;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:30:5: ( '!=' )
-            // TheLang.g:30:7: '!='
-            {
-            match("!="); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "NEQ"
-
-    // $ANTLR start "NOT"
-    public final void mNOT() throws RecognitionException {
-        try {
-            int _type = NOT;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:31:5: ( '!' )
-            // TheLang.g:31:7: '!'
-            {
-            match('!'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "NOT"
-
-    // $ANTLR start "OD"
-    public final void mOD() throws RecognitionException {
-        try {
-            int _type = OD;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:32:4: ( 'od' )
-            // TheLang.g:32:6: 'od'
-            {
-            match("od"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "OD"
-
-    // $ANTLR start "OR"
-    public final void mOR() throws RecognitionException {
-        try {
-            int _type = OR;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:33:4: ( '|' )
-            // TheLang.g:33:6: '|'
-            {
-            match('|'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "OR"
-
-    // $ANTLR start "PLUS"
-    public final void mPLUS() throws RecognitionException {
-        try {
-            int _type = PLUS;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:34:6: ( '+' )
-            // TheLang.g:34:8: '+'
-            {
-            match('+'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "PLUS"
-
-    // $ANTLR start "PROGRAM"
-    public final void mPROGRAM() throws RecognitionException {
-        try {
-            int _type = PROGRAM;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:35:9: ( 'program' )
-            // TheLang.g:35:11: 'program'
-            {
-            match("program"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "PROGRAM"
-
-    // $ANTLR start "RBRACE"
-    public final void mRBRACE() throws RecognitionException {
-        try {
-            int _type = RBRACE;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:36:8: ( '}' )
-            // TheLang.g:36:10: '}'
-            {
-            match('}'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "RBRACE"
-
-    // $ANTLR start "RBRACKET"
-    public final void mRBRACKET() throws RecognitionException {
-        try {
-            int _type = RBRACKET;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:37:10: ( ']' )
-            // TheLang.g:37:12: ']'
-            {
-            match(']'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "RBRACKET"
-
-    // $ANTLR start "READ"
-    public final void mREAD() throws RecognitionException {
-        try {
-            int _type = READ;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:38:6: ( 'read' )
-            // TheLang.g:38:8: 'read'
-            {
-            match("read"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "READ"
-
-    // $ANTLR start "RPAREN"
-    public final void mRPAREN() throws RecognitionException {
-        try {
-            int _type = RPAREN;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:39:8: ( ')' )
-            // TheLang.g:39:10: ')'
-            {
-            match(')'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "RPAREN"
-
-    // $ANTLR start "SEMI"
-    public final void mSEMI() throws RecognitionException {
-        try {
-            int _type = SEMI;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:40:6: ( ';' )
-            // TheLang.g:40:8: ';'
-            {
-            match(';'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "SEMI"
-
-    // $ANTLR start "SKIP"
-    public final void mSKIP() throws RecognitionException {
-        try {
-            int _type = SKIP;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:41:6: ( 'skip' )
-            // TheLang.g:41:8: 'skip'
-            {
-            match("skip"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "SKIP"
-
-    // $ANTLR start "THEN"
-    public final void mTHEN() throws RecognitionException {
-        try {
-            int _type = THEN;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:42:6: ( 'then' )
-            // TheLang.g:42:8: 'then'
-            {
-            match("then"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "THEN"
-
-    // $ANTLR start "TRUE"
-    public final void mTRUE() throws RecognitionException {
-        try {
-            int _type = TRUE;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:43:6: ( 'true' )
-            // TheLang.g:43:8: 'true'
-            {
-            match("true"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "TRUE"
-
-    // $ANTLR start "WHILE"
-    public final void mWHILE() throws RecognitionException {
-        try {
-            int _type = WHILE;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:44:7: ( 'while' )
-            // TheLang.g:44:9: 'while'
-            {
-            match("while"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "WHILE"
-
-    // $ANTLR start "WRITE"
-    public final void mWRITE() throws RecognitionException {
-        try {
-            int _type = WRITE;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:45:7: ( 'write' )
-            // TheLang.g:45:9: 'write'
-            {
-            match("write"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "WRITE"
-
-    // $ANTLR start "COMMENT"
-    public final void mCOMMENT() throws RecognitionException {
-        try {
-            int _type = COMMENT;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:166:9: ( '(*' ( options {greedy=false; } : . )* '*)' )
-            // TheLang.g:166:11: '(*' ( options {greedy=false; } : . )* '*)'
-            {
-            match("(*"); 
-
-
-
-            // TheLang.g:166:16: ( options {greedy=false; } : . )*
-            loop1:
-            do {
-                int alt1=2;
-                int LA1_0 = input.LA(1);
-
-                if ( (LA1_0=='*') ) {
-                    int LA1_1 = input.LA(2);
-
-                    if ( (LA1_1==')') ) {
-                        alt1=2;
-                    }
-                    else if ( ((LA1_1 >= '\u0000' && LA1_1 <= '(')||(LA1_1 >= '*' && LA1_1 <= '\uFFFF')) ) {
-                        alt1=1;
-                    }
-
-
-                }
-                else if ( ((LA1_0 >= '\u0000' && LA1_0 <= ')')||(LA1_0 >= '+' && LA1_0 <= '\uFFFF')) ) {
-                    alt1=1;
-                }
-
-
-                switch (alt1) {
-            	case 1 :
-            	    // TheLang.g:166:43: .
-            	    {
-            	    matchAny(); 
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop1;
-                }
-            } while (true);
-
-
-            match("*)"); 
-
-
-
-            _channel=HIDDEN;
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "COMMENT"
-
-    // $ANTLR start "INTEGER"
-    public final void mINTEGER() throws RecognitionException {
-        try {
-            int _type = INTEGER;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:169:9: ( ( '0' | '1' .. '9' ( '0' .. '9' )* ) )
-            // TheLang.g:169:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
-            {
-            // TheLang.g:169:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
-            int alt3=2;
-            int LA3_0 = input.LA(1);
-
-            if ( (LA3_0=='0') ) {
-                alt3=1;
-            }
-            else if ( ((LA3_0 >= '1' && LA3_0 <= '9')) ) {
-                alt3=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 3, 0, input);
-
-                throw nvae;
-
-            }
-            switch (alt3) {
-                case 1 :
-                    // TheLang.g:169:12: '0'
-                    {
-                    match('0'); 
-
-                    }
-                    break;
-                case 2 :
-                    // TheLang.g:169:18: '1' .. '9' ( '0' .. '9' )*
-                    {
-                    matchRange('1','9'); 
-
-                    // TheLang.g:169:27: ( '0' .. '9' )*
-                    loop2:
-                    do {
-                        int alt2=2;
-                        int LA2_0 = input.LA(1);
-
-                        if ( ((LA2_0 >= '0' && LA2_0 <= '9')) ) {
-                            alt2=1;
-                        }
-
-
-                        switch (alt2) {
-                    	case 1 :
-                    	    // TheLang.g:
-                    	    {
-                    	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9') ) {
-                    	        input.consume();
-                    	    }
-                    	    else {
-                    	        MismatchedSetException mse = new MismatchedSetException(null,input);
-                    	        recover(mse);
-                    	        throw mse;
-                    	    }
-
-
-                    	    }
-                    	    break;
-
-                    	default :
-                    	    break loop2;
-                        }
-                    } while (true);
-
-
-                    }
-                    break;
-
-            }
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "INTEGER"
-
-    // $ANTLR start "IDENTIFIER"
-    public final void mIDENTIFIER() throws RecognitionException {
-        try {
-            int _type = IDENTIFIER;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:171:12: ( LETTER ( LETTER | '0' .. '9' )* )
-            // TheLang.g:171:14: LETTER ( LETTER | '0' .. '9' )*
-            {
-            mLETTER(); 
-
-
-            // TheLang.g:171:21: ( LETTER | '0' .. '9' )*
-            loop4:
-            do {
-                int alt4=2;
-                int LA4_0 = input.LA(1);
-
-                if ( ((LA4_0 >= '0' && LA4_0 <= '9')||(LA4_0 >= 'A' && LA4_0 <= 'Z')||LA4_0=='_'||(LA4_0 >= 'a' && LA4_0 <= 'z')) ) {
-                    alt4=1;
-                }
-
-
-                switch (alt4) {
-            	case 1 :
-            	    // TheLang.g:
-            	    {
-            	    if ( (input.LA(1) >= '0' && input.LA(1) <= '9')||(input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
-            	        input.consume();
-            	    }
-            	    else {
-            	        MismatchedSetException mse = new MismatchedSetException(null,input);
-            	        recover(mse);
-            	        throw mse;
-            	    }
-
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop4;
-                }
-            } while (true);
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "IDENTIFIER"
-
-    // $ANTLR start "LETTER"
-    public final void mLETTER() throws RecognitionException {
-        try {
-            // TheLang.g:175:8: ( 'A' .. 'Z' | 'a' .. 'z' | '_' )
-            // TheLang.g:
-            {
-            if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
-                input.consume();
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;
-            }
-
-
-            }
-
-
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "LETTER"
-
-    // $ANTLR start "WS"
-    public final void mWS() throws RecognitionException {
-        try {
-            int _type = WS;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // TheLang.g:179:4: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-            // TheLang.g:179:6: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
-            {
-            if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n')||(input.LA(1) >= '\f' && input.LA(1) <= '\r')||input.LA(1)==' ' ) {
-                input.consume();
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;
-            }
-
-
-             skip(); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "WS"
-
-    public void mTokens() throws RecognitionException {
-        // TheLang.g:1:8: ( AND | ASSIGN | COLON | DIV | DO | ELSE | END | EQ | FALSE | FI | GE | GT | HIGH | IF | INT | LBRACE | LBRACKET | LE | LOW | LPAREN | LT | MINUS | MUL | NEQ | NOT | OD | OR | PLUS | PROGRAM | RBRACE | RBRACKET | READ | RPAREN | SEMI | SKIP | THEN | TRUE | WHILE | WRITE | COMMENT | INTEGER | IDENTIFIER | WS )
-        int alt5=43;
-        alt5 = dfa5.predict(input);
-        switch (alt5) {
-            case 1 :
-                // TheLang.g:1:10: AND
-                {
-                mAND(); 
-
-
-                }
-                break;
-            case 2 :
-                // TheLang.g:1:14: ASSIGN
-                {
-                mASSIGN(); 
-
-
-                }
-                break;
-            case 3 :
-                // TheLang.g:1:21: COLON
-                {
-                mCOLON(); 
-
-
-                }
-                break;
-            case 4 :
-                // TheLang.g:1:27: DIV
-                {
-                mDIV(); 
-
-
-                }
-                break;
-            case 5 :
-                // TheLang.g:1:31: DO
-                {
-                mDO(); 
-
-
-                }
-                break;
-            case 6 :
-                // TheLang.g:1:34: ELSE
-                {
-                mELSE(); 
-
-
-                }
-                break;
-            case 7 :
-                // TheLang.g:1:39: END
-                {
-                mEND(); 
-
-
-                }
-                break;
-            case 8 :
-                // TheLang.g:1:43: EQ
-                {
-                mEQ(); 
-
-
-                }
-                break;
-            case 9 :
-                // TheLang.g:1:46: FALSE
-                {
-                mFALSE(); 
-
-
-                }
-                break;
-            case 10 :
-                // TheLang.g:1:52: FI
-                {
-                mFI(); 
-
-
-                }
-                break;
-            case 11 :
-                // TheLang.g:1:55: GE
-                {
-                mGE(); 
-
-
-                }
-                break;
-            case 12 :
-                // TheLang.g:1:58: GT
-                {
-                mGT(); 
-
-
-                }
-                break;
-            case 13 :
-                // TheLang.g:1:61: HIGH
-                {
-                mHIGH(); 
-
-
-                }
-                break;
-            case 14 :
-                // TheLang.g:1:66: IF
-                {
-                mIF(); 
-
-
-                }
-                break;
-            case 15 :
-                // TheLang.g:1:69: INT
-                {
-                mINT(); 
-
-
-                }
-                break;
-            case 16 :
-                // TheLang.g:1:73: LBRACE
-                {
-                mLBRACE(); 
-
-
-                }
-                break;
-            case 17 :
-                // TheLang.g:1:80: LBRACKET
-                {
-                mLBRACKET(); 
-
-
-                }
-                break;
-            case 18 :
-                // TheLang.g:1:89: LE
-                {
-                mLE(); 
-
-
-                }
-                break;
-            case 19 :
-                // TheLang.g:1:92: LOW
-                {
-                mLOW(); 
-
-
-                }
-                break;
-            case 20 :
-                // TheLang.g:1:96: LPAREN
-                {
-                mLPAREN(); 
-
-
-                }
-                break;
-            case 21 :
-                // TheLang.g:1:103: LT
-                {
-                mLT(); 
-
-
-                }
-                break;
-            case 22 :
-                // TheLang.g:1:106: MINUS
-                {
-                mMINUS(); 
-
-
-                }
-                break;
-            case 23 :
-                // TheLang.g:1:112: MUL
-                {
-                mMUL(); 
-
-
-                }
-                break;
-            case 24 :
-                // TheLang.g:1:116: NEQ
-                {
-                mNEQ(); 
-
-
-                }
-                break;
-            case 25 :
-                // TheLang.g:1:120: NOT
-                {
-                mNOT(); 
-
-
-                }
-                break;
-            case 26 :
-                // TheLang.g:1:124: OD
-                {
-                mOD(); 
-
-
-                }
-                break;
-            case 27 :
-                // TheLang.g:1:127: OR
-                {
-                mOR(); 
-
-
-                }
-                break;
-            case 28 :
-                // TheLang.g:1:130: PLUS
-                {
-                mPLUS(); 
-
-
-                }
-                break;
-            case 29 :
-                // TheLang.g:1:135: PROGRAM
-                {
-                mPROGRAM(); 
-
-
-                }
-                break;
-            case 30 :
-                // TheLang.g:1:143: RBRACE
-                {
-                mRBRACE(); 
-
-
-                }
-                break;
-            case 31 :
-                // TheLang.g:1:150: RBRACKET
-                {
-                mRBRACKET(); 
-
-
-                }
-                break;
-            case 32 :
-                // TheLang.g:1:159: READ
-                {
-                mREAD(); 
-
-
-                }
-                break;
-            case 33 :
-                // TheLang.g:1:164: RPAREN
-                {
-                mRPAREN(); 
-
-
-                }
-                break;
-            case 34 :
-                // TheLang.g:1:171: SEMI
-                {
-                mSEMI(); 
-
-
-                }
-                break;
-            case 35 :
-                // TheLang.g:1:176: SKIP
-                {
-                mSKIP(); 
-
-
-                }
-                break;
-            case 36 :
-                // TheLang.g:1:181: THEN
-                {
-                mTHEN(); 
-
-
-                }
-                break;
-            case 37 :
-                // TheLang.g:1:186: TRUE
-                {
-                mTRUE(); 
-
-
-                }
-                break;
-            case 38 :
-                // TheLang.g:1:191: WHILE
-                {
-                mWHILE(); 
-
-
-                }
-                break;
-            case 39 :
-                // TheLang.g:1:197: WRITE
-                {
-                mWRITE(); 
-
-
-                }
-                break;
-            case 40 :
-                // TheLang.g:1:203: COMMENT
-                {
-                mCOMMENT(); 
-
-
-                }
-                break;
-            case 41 :
-                // TheLang.g:1:211: INTEGER
-                {
-                mINTEGER(); 
-
-
-                }
-                break;
-            case 42 :
-                // TheLang.g:1:219: IDENTIFIER
-                {
-                mIDENTIFIER(); 
-
-
-                }
-                break;
-            case 43 :
-                // TheLang.g:1:230: WS
-                {
-                mWS(); 
-
-
-                }
-                break;
-
-        }
-
-    }
-
-
-    protected DFA5 dfa5 = new DFA5(this);
-    static final String DFA5_eotS =
-        "\2\uffff\1\43\1\uffff\2\40\1\uffff\1\40\1\52\2\40\2\uffff\1\57\1"+
-        "\40\1\62\2\uffff\1\64\1\40\2\uffff\1\40\2\uffff\1\40\2\uffff\3\40"+
-        "\5\uffff\1\75\3\40\1\101\2\uffff\1\40\1\103\1\40\2\uffff\1\40\4"+
-        "\uffff\1\106\7\40\1\uffff\1\40\1\117\1\40\1\uffff\1\40\1\uffff\1"+
-        "\122\1\123\1\uffff\7\40\1\133\1\uffff\1\40\1\135\2\uffff\1\40\1"+
-        "\137\1\140\1\141\1\142\2\40\1\uffff\1\145\1\uffff\1\40\4\uffff\1"+
-        "\147\1\150\1\uffff\1\40\2\uffff\1\152\1\uffff";
-    static final String DFA5_eofS =
-        "\153\uffff";
-    static final String DFA5_minS =
-        "\1\11\1\uffff\1\75\1\uffff\1\157\1\154\1\uffff\1\141\1\75\1\151"+
-        "\1\146\2\uffff\1\75\1\157\1\52\2\uffff\1\75\1\144\2\uffff\1\162"+
-        "\2\uffff\1\145\2\uffff\1\153\2\150\5\uffff\1\60\1\163\1\144\1\154"+
-        "\1\60\2\uffff\1\147\1\60\1\164\2\uffff\1\167\4\uffff\1\60\1\157"+
-        "\1\141\1\151\1\145\1\165\2\151\1\uffff\1\145\1\60\1\163\1\uffff"+
-        "\1\150\1\uffff\2\60\1\uffff\1\147\1\144\1\160\1\156\1\145\1\154"+
-        "\1\164\1\60\1\uffff\1\145\1\60\2\uffff\1\162\4\60\2\145\1\uffff"+
-        "\1\60\1\uffff\1\141\4\uffff\2\60\1\uffff\1\155\2\uffff\1\60\1\uffff";
-    static final String DFA5_maxS =
-        "\1\175\1\uffff\1\75\1\uffff\1\157\1\156\1\uffff\1\151\1\75\1\151"+
-        "\1\156\2\uffff\1\75\1\157\1\52\2\uffff\1\75\1\144\2\uffff\1\162"+
-        "\2\uffff\1\145\2\uffff\1\153\2\162\5\uffff\1\172\1\163\1\144\1\154"+
-        "\1\172\2\uffff\1\147\1\172\1\164\2\uffff\1\167\4\uffff\1\172\1\157"+
-        "\1\141\1\151\1\145\1\165\2\151\1\uffff\1\145\1\172\1\163\1\uffff"+
-        "\1\150\1\uffff\2\172\1\uffff\1\147\1\144\1\160\1\156\1\145\1\154"+
-        "\1\164\1\172\1\uffff\1\145\1\172\2\uffff\1\162\4\172\2\145\1\uffff"+
-        "\1\172\1\uffff\1\141\4\uffff\2\172\1\uffff\1\155\2\uffff\1\172\1"+
-        "\uffff";
-    static final String DFA5_acceptS =
-        "\1\uffff\1\1\1\uffff\1\4\2\uffff\1\10\4\uffff\1\20\1\21\3\uffff"+
-        "\1\26\1\27\2\uffff\1\33\1\34\1\uffff\1\36\1\37\1\uffff\1\41\1\42"+
-        "\3\uffff\1\51\1\52\1\53\1\2\1\3\5\uffff\1\13\1\14\3\uffff\1\22\1"+
-        "\25\1\uffff\1\50\1\24\1\30\1\31\10\uffff\1\5\3\uffff\1\12\1\uffff"+
-        "\1\16\2\uffff\1\32\10\uffff\1\7\2\uffff\1\17\1\23\7\uffff\1\6\1"+
-        "\uffff\1\15\1\uffff\1\40\1\43\1\44\1\45\2\uffff\1\11\1\uffff\1\46"+
-        "\1\47\1\uffff\1\35";
-    static final String DFA5_specialS =
-        "\153\uffff}>";
-    static final String[] DFA5_transitionS = {
-            "\2\41\1\uffff\2\41\22\uffff\1\41\1\22\4\uffff\1\1\1\uffff\1"+
-            "\17\1\32\1\21\1\25\1\uffff\1\20\1\uffff\1\3\12\37\1\2\1\33\1"+
-            "\15\1\6\1\10\2\uffff\32\40\1\14\1\uffff\1\30\1\uffff\1\40\1"+
-            "\uffff\3\40\1\4\1\5\1\7\1\40\1\11\1\12\2\40\1\16\2\40\1\23\1"+
-            "\26\1\40\1\31\1\34\1\35\2\40\1\36\3\40\1\13\1\24\1\27",
-            "",
-            "\1\42",
-            "",
-            "\1\44",
-            "\1\45\1\uffff\1\46",
-            "",
-            "\1\47\7\uffff\1\50",
-            "\1\51",
-            "\1\53",
-            "\1\54\7\uffff\1\55",
-            "",
-            "",
-            "\1\56",
-            "\1\60",
-            "\1\61",
-            "",
-            "",
-            "\1\63",
-            "\1\65",
-            "",
-            "",
-            "\1\66",
-            "",
-            "",
-            "\1\67",
-            "",
-            "",
-            "\1\70",
-            "\1\71\11\uffff\1\72",
-            "\1\73\11\uffff\1\74",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\76",
-            "\1\77",
-            "\1\100",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "",
-            "",
-            "\1\102",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\104",
-            "",
-            "",
-            "\1\105",
-            "",
-            "",
-            "",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\107",
-            "\1\110",
-            "\1\111",
-            "\1\112",
-            "\1\113",
-            "\1\114",
-            "\1\115",
-            "",
-            "\1\116",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\120",
-            "",
-            "\1\121",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "",
-            "\1\124",
-            "\1\125",
-            "\1\126",
-            "\1\127",
-            "\1\130",
-            "\1\131",
-            "\1\132",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "",
-            "\1\134",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "",
-            "",
-            "\1\136",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\143",
-            "\1\144",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "",
-            "\1\146",
-            "",
-            "",
-            "",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "",
-            "\1\151",
-            "",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            ""
-    };
-
-    static final short[] DFA5_eot = DFA.unpackEncodedString(DFA5_eotS);
-    static final short[] DFA5_eof = DFA.unpackEncodedString(DFA5_eofS);
-    static final char[] DFA5_min = DFA.unpackEncodedStringToUnsignedChars(DFA5_minS);
-    static final char[] DFA5_max = DFA.unpackEncodedStringToUnsignedChars(DFA5_maxS);
-    static final short[] DFA5_accept = DFA.unpackEncodedString(DFA5_acceptS);
-    static final short[] DFA5_special = DFA.unpackEncodedString(DFA5_specialS);
-    static final short[][] DFA5_transition;
-
-    static {
-        int numStates = DFA5_transitionS.length;
-        DFA5_transition = new short[numStates][];
-        for (int i=0; i<numStates; i++) {
-            DFA5_transition[i] = DFA.unpackEncodedString(DFA5_transitionS[i]);
-        }
-    }
-
-    class DFA5 extends DFA {
-
-        public DFA5(BaseRecognizer recognizer) {
-            this.recognizer = recognizer;
-            this.decisionNumber = 5;
-            this.eot = DFA5_eot;
-            this.eof = DFA5_eof;
-            this.min = DFA5_min;
-            this.max = DFA5_max;
-            this.accept = DFA5_accept;
-            this.special = DFA5_special;
-            this.transition = DFA5_transition;
-        }
-        public String getDescription() {
-            return "1:1: Tokens : ( AND | ASSIGN | COLON | DIV | DO | ELSE | END | EQ | FALSE | FI | GE | GT | HIGH | IF | INT | LBRACE | LBRACKET | LE | LOW | LPAREN | LT | MINUS | MUL | NEQ | NOT | OD | OR | PLUS | PROGRAM | RBRACE | RBRACKET | READ | RPAREN | SEMI | SKIP | THEN | TRUE | WHILE | WRITE | COMMENT | INTEGER | IDENTIFIER | WS );";
-        }
-    }
- 
-
+	static { RuntimeMetaData.checkVersion("4.5.1", RuntimeMetaData.VERSION); }
+
+	protected static final DFA[] _decisionToDFA;
+	protected static final PredictionContextCache _sharedContextCache =
+		new PredictionContextCache();
+	public static final int
+		AND=1, OR=2, ASSIGN=3, SEMI=4, GT=5, GE=6, LT=7, LE=8, EQ=9, NEQ=10, PLUS=11, 
+		MINUS=12, MUL=13, DIV=14, NOT=15, LPAREN=16, RPAREN=17, LBRACE=18, RBRACE=19, 
+		LBRACKET=20, RBRACKET=21, COLON=22, IF=23, THEN=24, ELSE=25, FI=26, WHILE=27, 
+		DO=28, OD=29, SKIP=30, WRITE=31, READ=32, PROGRAM=33, END=34, TRUE=35, 
+		FALSE=36, INT=37, LOW=38, HIGH=39, COMMENT=40, INTEGER=41, IDENTIFIER=42, 
+		WS=43;
+	public static String[] modeNames = {
+		"DEFAULT_MODE"
+	};
+
+	public static final String[] ruleNames = {
+		"AND", "OR", "ASSIGN", "SEMI", "GT", "GE", "LT", "LE", "EQ", "NEQ", "PLUS", 
+		"MINUS", "MUL", "DIV", "NOT", "LPAREN", "RPAREN", "LBRACE", "RBRACE", 
+		"LBRACKET", "RBRACKET", "COLON", "IF", "THEN", "ELSE", "FI", "WHILE", 
+		"DO", "OD", "SKIP", "WRITE", "READ", "PROGRAM", "END", "TRUE", "FALSE", 
+		"INT", "LOW", "HIGH", "COMMENT", "INTEGER", "IDENTIFIER", "LETTER", "WS"
+	};
+
+	private static final String[] _LITERAL_NAMES = {
+		null, "'&'", "'|'", "':='", "';'", "'>'", "'>='", "'<'", "'<='", "'='", 
+		"'!='", "'+'", "'-'", "'*'", "'/'", "'!'", "'('", "')'", "'{'", "'}'", 
+		"'['", "']'", "':'", "'if'", "'then'", "'else'", "'fi'", "'while'", "'do'", 
+		"'od'", "'skip'", "'write'", "'read'", "'program'", "'end'", "'true'", 
+		"'false'", "'int'", "'low'", "'high'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, "AND", "OR", "ASSIGN", "SEMI", "GT", "GE", "LT", "LE", "EQ", "NEQ", 
+		"PLUS", "MINUS", "MUL", "DIV", "NOT", "LPAREN", "RPAREN", "LBRACE", "RBRACE", 
+		"LBRACKET", "RBRACKET", "COLON", "IF", "THEN", "ELSE", "FI", "WHILE", 
+		"DO", "OD", "SKIP", "WRITE", "READ", "PROGRAM", "END", "TRUE", "FALSE", 
+		"INT", "LOW", "HIGH", "COMMENT", "INTEGER", "IDENTIFIER", "WS"
+	};
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
+
+	@Override
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
+
+	public TheLangLexer(CharStream input) {
+		super(input);
+		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
+	}
+
+	@Override
+	public String getGrammarFileName() { return "TheLang.g4"; }
+
+	@Override
+	public String[] getRuleNames() { return ruleNames; }
+
+	@Override
+	public String getSerializedATN() { return _serializedATN; }
+
+	@Override
+	public String[] getModeNames() { return modeNames; }
+
+	@Override
+	public ATN getATN() { return _ATN; }
+
+	@Override
+	public void action(RuleContext _localctx, int ruleIndex, int actionIndex) {
+		switch (ruleIndex) {
+		case 43:
+			WS_action((RuleContext)_localctx, actionIndex);
+			break;
+		}
+	}
+	private void WS_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 0:
+			 skip(); 
+			break;
+		}
+	}
+
+	public static final String _serializedATN =
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\2-\u0100\b\1\4\2\t"+
+		"\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
+		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \4!"+
+		"\t!\4\"\t\"\4#\t#\4$\t$\4%\t%\4&\t&\4\'\t\'\4(\t(\4)\t)\4*\t*\4+\t+\4"+
+		",\t,\4-\t-\3\2\3\2\3\3\3\3\3\4\3\4\3\4\3\5\3\5\3\6\3\6\3\7\3\7\3\7\3\b"+
+		"\3\b\3\t\3\t\3\t\3\n\3\n\3\13\3\13\3\13\3\f\3\f\3\r\3\r\3\16\3\16\3\17"+
+		"\3\17\3\20\3\20\3\21\3\21\3\22\3\22\3\23\3\23\3\24\3\24\3\25\3\25\3\26"+
+		"\3\26\3\27\3\27\3\30\3\30\3\30\3\31\3\31\3\31\3\31\3\31\3\32\3\32\3\32"+
+		"\3\32\3\32\3\33\3\33\3\33\3\34\3\34\3\34\3\34\3\34\3\34\3\35\3\35\3\35"+
+		"\3\36\3\36\3\36\3\37\3\37\3\37\3\37\3\37\3 \3 \3 \3 \3 \3 \3!\3!\3!\3"+
+		"!\3!\3\"\3\"\3\"\3\"\3\"\3\"\3\"\3\"\3#\3#\3#\3#\3$\3$\3$\3$\3$\3%\3%"+
+		"\3%\3%\3%\3%\3&\3&\3&\3&\3\'\3\'\3\'\3\'\3(\3(\3(\3(\3(\3)\3)\3)\3)\7"+
+		")\u00e0\n)\f)\16)\u00e3\13)\3)\3)\3)\3)\3)\3*\3*\3*\7*\u00ed\n*\f*\16"+
+		"*\u00f0\13*\5*\u00f2\n*\3+\3+\3+\7+\u00f7\n+\f+\16+\u00fa\13+\3,\3,\3"+
+		"-\3-\3-\3\u00e1\2.\3\3\5\4\7\5\t\6\13\7\r\b\17\t\21\n\23\13\25\f\27\r"+
+		"\31\16\33\17\35\20\37\21!\22#\23%\24\'\25)\26+\27-\30/\31\61\32\63\33"+
+		"\65\34\67\359\36;\37= ?!A\"C#E$G%I&K\'M(O)Q*S+U,W\2Y-\3\2\4\5\2C\\aac"+
+		"|\5\2\13\f\16\17\"\"\u0103\2\3\3\2\2\2\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2"+
+		"\2\2\2\13\3\2\2\2\2\r\3\2\2\2\2\17\3\2\2\2\2\21\3\2\2\2\2\23\3\2\2\2\2"+
+		"\25\3\2\2\2\2\27\3\2\2\2\2\31\3\2\2\2\2\33\3\2\2\2\2\35\3\2\2\2\2\37\3"+
+		"\2\2\2\2!\3\2\2\2\2#\3\2\2\2\2%\3\2\2\2\2\'\3\2\2\2\2)\3\2\2\2\2+\3\2"+
+		"\2\2\2-\3\2\2\2\2/\3\2\2\2\2\61\3\2\2\2\2\63\3\2\2\2\2\65\3\2\2\2\2\67"+
+		"\3\2\2\2\29\3\2\2\2\2;\3\2\2\2\2=\3\2\2\2\2?\3\2\2\2\2A\3\2\2\2\2C\3\2"+
+		"\2\2\2E\3\2\2\2\2G\3\2\2\2\2I\3\2\2\2\2K\3\2\2\2\2M\3\2\2\2\2O\3\2\2\2"+
+		"\2Q\3\2\2\2\2S\3\2\2\2\2U\3\2\2\2\2Y\3\2\2\2\3[\3\2\2\2\5]\3\2\2\2\7_"+
+		"\3\2\2\2\tb\3\2\2\2\13d\3\2\2\2\rf\3\2\2\2\17i\3\2\2\2\21k\3\2\2\2\23"+
+		"n\3\2\2\2\25p\3\2\2\2\27s\3\2\2\2\31u\3\2\2\2\33w\3\2\2\2\35y\3\2\2\2"+
+		"\37{\3\2\2\2!}\3\2\2\2#\177\3\2\2\2%\u0081\3\2\2\2\'\u0083\3\2\2\2)\u0085"+
+		"\3\2\2\2+\u0087\3\2\2\2-\u0089\3\2\2\2/\u008b\3\2\2\2\61\u008e\3\2\2\2"+
+		"\63\u0093\3\2\2\2\65\u0098\3\2\2\2\67\u009b\3\2\2\29\u00a1\3\2\2\2;\u00a4"+
+		"\3\2\2\2=\u00a7\3\2\2\2?\u00ac\3\2\2\2A\u00b2\3\2\2\2C\u00b7\3\2\2\2E"+
+		"\u00bf\3\2\2\2G\u00c3\3\2\2\2I\u00c8\3\2\2\2K\u00ce\3\2\2\2M\u00d2\3\2"+
+		"\2\2O\u00d6\3\2\2\2Q\u00db\3\2\2\2S\u00f1\3\2\2\2U\u00f3\3\2\2\2W\u00fb"+
+		"\3\2\2\2Y\u00fd\3\2\2\2[\\\7(\2\2\\\4\3\2\2\2]^\7~\2\2^\6\3\2\2\2_`\7"+
+		"<\2\2`a\7?\2\2a\b\3\2\2\2bc\7=\2\2c\n\3\2\2\2de\7@\2\2e\f\3\2\2\2fg\7"+
+		"@\2\2gh\7?\2\2h\16\3\2\2\2ij\7>\2\2j\20\3\2\2\2kl\7>\2\2lm\7?\2\2m\22"+
+		"\3\2\2\2no\7?\2\2o\24\3\2\2\2pq\7#\2\2qr\7?\2\2r\26\3\2\2\2st\7-\2\2t"+
+		"\30\3\2\2\2uv\7/\2\2v\32\3\2\2\2wx\7,\2\2x\34\3\2\2\2yz\7\61\2\2z\36\3"+
+		"\2\2\2{|\7#\2\2| \3\2\2\2}~\7*\2\2~\"\3\2\2\2\177\u0080\7+\2\2\u0080$"+
+		"\3\2\2\2\u0081\u0082\7}\2\2\u0082&\3\2\2\2\u0083\u0084\7\177\2\2\u0084"+
+		"(\3\2\2\2\u0085\u0086\7]\2\2\u0086*\3\2\2\2\u0087\u0088\7_\2\2\u0088,"+
+		"\3\2\2\2\u0089\u008a\7<\2\2\u008a.\3\2\2\2\u008b\u008c\7k\2\2\u008c\u008d"+
+		"\7h\2\2\u008d\60\3\2\2\2\u008e\u008f\7v\2\2\u008f\u0090\7j\2\2\u0090\u0091"+
+		"\7g\2\2\u0091\u0092\7p\2\2\u0092\62\3\2\2\2\u0093\u0094\7g\2\2\u0094\u0095"+
+		"\7n\2\2\u0095\u0096\7u\2\2\u0096\u0097\7g\2\2\u0097\64\3\2\2\2\u0098\u0099"+
+		"\7h\2\2\u0099\u009a\7k\2\2\u009a\66\3\2\2\2\u009b\u009c\7y\2\2\u009c\u009d"+
+		"\7j\2\2\u009d\u009e\7k\2\2\u009e\u009f\7n\2\2\u009f\u00a0\7g\2\2\u00a0"+
+		"8\3\2\2\2\u00a1\u00a2\7f\2\2\u00a2\u00a3\7q\2\2\u00a3:\3\2\2\2\u00a4\u00a5"+
+		"\7q\2\2\u00a5\u00a6\7f\2\2\u00a6<\3\2\2\2\u00a7\u00a8\7u\2\2\u00a8\u00a9"+
+		"\7m\2\2\u00a9\u00aa\7k\2\2\u00aa\u00ab\7r\2\2\u00ab>\3\2\2\2\u00ac\u00ad"+
+		"\7y\2\2\u00ad\u00ae\7t\2\2\u00ae\u00af\7k\2\2\u00af\u00b0\7v\2\2\u00b0"+
+		"\u00b1\7g\2\2\u00b1@\3\2\2\2\u00b2\u00b3\7t\2\2\u00b3\u00b4\7g\2\2\u00b4"+
+		"\u00b5\7c\2\2\u00b5\u00b6\7f\2\2\u00b6B\3\2\2\2\u00b7\u00b8\7r\2\2\u00b8"+
+		"\u00b9\7t\2\2\u00b9\u00ba\7q\2\2\u00ba\u00bb\7i\2\2\u00bb\u00bc\7t\2\2"+
+		"\u00bc\u00bd\7c\2\2\u00bd\u00be\7o\2\2\u00beD\3\2\2\2\u00bf\u00c0\7g\2"+
+		"\2\u00c0\u00c1\7p\2\2\u00c1\u00c2\7f\2\2\u00c2F\3\2\2\2\u00c3\u00c4\7"+
+		"v\2\2\u00c4\u00c5\7t\2\2\u00c5\u00c6\7w\2\2\u00c6\u00c7\7g\2\2\u00c7H"+
+		"\3\2\2\2\u00c8\u00c9\7h\2\2\u00c9\u00ca\7c\2\2\u00ca\u00cb\7n\2\2\u00cb"+
+		"\u00cc\7u\2\2\u00cc\u00cd\7g\2\2\u00cdJ\3\2\2\2\u00ce\u00cf\7k\2\2\u00cf"+
+		"\u00d0\7p\2\2\u00d0\u00d1\7v\2\2\u00d1L\3\2\2\2\u00d2\u00d3\7n\2\2\u00d3"+
+		"\u00d4\7q\2\2\u00d4\u00d5\7y\2\2\u00d5N\3\2\2\2\u00d6\u00d7\7j\2\2\u00d7"+
+		"\u00d8\7k\2\2\u00d8\u00d9\7i\2\2\u00d9\u00da\7j\2\2\u00daP\3\2\2\2\u00db"+
+		"\u00dc\7*\2\2\u00dc\u00dd\7,\2\2\u00dd\u00e1\3\2\2\2\u00de\u00e0\13\2"+
+		"\2\2\u00df\u00de\3\2\2\2\u00e0\u00e3\3\2\2\2\u00e1\u00e2\3\2\2\2\u00e1"+
+		"\u00df\3\2\2\2\u00e2\u00e4\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e4\u00e5\7,"+
+		"\2\2\u00e5\u00e6\7+\2\2\u00e6\u00e7\3\2\2\2\u00e7\u00e8\b)\2\2\u00e8R"+
+		"\3\2\2\2\u00e9\u00f2\7\62\2\2\u00ea\u00ee\4\63;\2\u00eb\u00ed\4\62;\2"+
+		"\u00ec\u00eb\3\2\2\2\u00ed\u00f0\3\2\2\2\u00ee\u00ec\3\2\2\2\u00ee\u00ef"+
+		"\3\2\2\2\u00ef\u00f2\3\2\2\2\u00f0\u00ee\3\2\2\2\u00f1\u00e9\3\2\2\2\u00f1"+
+		"\u00ea\3\2\2\2\u00f2T\3\2\2\2\u00f3\u00f8\5W,\2\u00f4\u00f7\5W,\2\u00f5"+
+		"\u00f7\4\62;\2\u00f6\u00f4\3\2\2\2\u00f6\u00f5\3\2\2\2\u00f7\u00fa\3\2"+
+		"\2\2\u00f8\u00f6\3\2\2\2\u00f8\u00f9\3\2\2\2\u00f9V\3\2\2\2\u00fa\u00f8"+
+		"\3\2\2\2\u00fb\u00fc\t\2\2\2\u00fcX\3\2\2\2\u00fd\u00fe\t\3\2\2\u00fe"+
+		"\u00ff\b-\3\2\u00ffZ\3\2\2\2\b\2\u00e1\u00ee\u00f1\u00f6\u00f8\4\b\2\2"+
+		"\3-\2";
+	public static final ATN _ATN =
+		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
+	static {
+		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
+		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {
+			_decisionToDFA[i] = new DFA(_ATN.getDecisionState(i), i);
+		}
+	}
 }

@@ -9,8 +9,6 @@ public interface IStatement {
 
     public String getType();
 
-    public IStatement getParent();
-
     public IStatement createInstance(IStatement parent);
 
     public void setStartToken(CommonToken start);

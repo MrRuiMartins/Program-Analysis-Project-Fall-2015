@@ -60,33 +60,121 @@ tokens {
   HIGH = 'high';
 }
 
-aexpr : aexpr1 (PLUS aexpr1 | MINUS aexpr1)* ;
+aexpr
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
 
-aexpr1 : aexpr2 (MUL aexpr2 | DIV aexpr2)* ;
+    Main.buildVertex(start, "aexpr");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
 
-aexpr2 : MINUS aexpr3
+    Main.assignVertex(end);
+}
+: aexpr1 (PLUS aexpr1 | MINUS aexpr1)* ;
+
+aexpr1
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
+
+    Main.buildVertex(start, "aexpr1");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
+
+    Main.assignVertex(end);
+}
+: aexpr2 (MUL aexpr2 | DIV aexpr2)* ;
+
+aexpr2
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
+
+    Main.buildVertex(start, "aexpr2");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
+
+    Main.assignVertex(end);
+}
+: MINUS aexpr3
        | aexpr3
        ;
 
-aexpr3 : IDENTIFIER (LBRACKET aexpr RBRACKET)?
+aexpr3
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
+
+    Main.buildVertex(start, "aexpr3");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
+
+    Main.assignVertex(end);
+}
+: IDENTIFIER (LBRACKET aexpr RBRACKET)?
        | INTEGER
        | LPAREN aexpr RPAREN
        ;
 
-bexpr : bexpr1 (OR bexpr1)*
+bexpr
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
+
+    Main.buildVertex(start, "bexpr");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
+
+    Main.assignVertex(end);
+}
+: bexpr1 (OR bexpr1)*
       ;
 
-bexpr1 : bexpr2 (AND bexpr2)*
+bexpr1
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
+
+    Main.buildVertex(start, "bexpr1");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
+
+    Main.assignVertex(end);
+}
+: bexpr2 (AND bexpr2)*
        ;
 
-bexpr2 : aexpr opr aexpr
+bexpr2
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
+
+    Main.buildVertex(start, "bexpr2");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
+
+    Main.assignVertex(end);
+}
+: aexpr opr aexpr
        | NOT bexpr
        | TRUE
        | FALSE
        | LPAREN bexpr RPAREN
        ;
 
-opr : GT
+opr
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
+
+    Main.buildVertex(start, "opr");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
+
+    Main.assignVertex(end);
+}
+: GT
     | GE
     | LT
     | LE
@@ -94,7 +182,18 @@ opr : GT
     | NEQ
     ;
 
-decl : level? INT IDENTIFIER (LBRACKET INTEGER RBRACKET)? SEMI ;
+decl
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
+
+    Main.buildVertex(start, "decl");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
+
+    Main.assignVertex(end);
+}
+: level? INT IDENTIFIER (LBRACKET INTEGER RBRACKET)? SEMI ;
 
 level : LOW | HIGH ;
 
@@ -102,7 +201,7 @@ stmt
 @after {
     CommonToken end = (CommonToken)input.LT(1);
 
-    Main.popStatement(end);
+    Main.assignVertex(end);
 }
 : assignStmt
      | skipStmt
@@ -116,7 +215,7 @@ assignStmt
 @init {
     CommonToken start = (CommonToken)input.LT(1);
 
-    Main.pushStatement(start, "assign");
+    Main.buildVertex(start, "assign");
 }
 : IDENTIFIER (LBRACKET aexpr RBRACKET)? ASSIGN aexpr SEMI ;
 
@@ -124,7 +223,7 @@ skipStmt
 @init {
     CommonToken start = (CommonToken)input.LT(1);
 
-    Main.pushStatement(start, "skip");
+    Main.buildVertex(start, "skip");
 }
 : SKIP SEMI ;
 
@@ -132,7 +231,7 @@ readStmt
 @init {
     CommonToken start = (CommonToken)input.LT(1);
 
-    Main.pushStatement(start, "read");
+    Main.buildVertex(start, "read");
 }
 : READ IDENTIFIER (LBRACKET aexpr RBRACKET)? SEMI ;
 
@@ -140,7 +239,7 @@ writeStmt
 @init {
     CommonToken start = (CommonToken)input.LT(1);
 
-    Main.pushStatement(start, "write");
+    Main.buildVertex(start, "write");
 }
 : WRITE aexpr SEMI ;
 
@@ -148,7 +247,7 @@ ifStmt
 @init {
     CommonToken start = (CommonToken)input.LT(1);
 
-    Main.pushStatement(start, "if");
+    Main.buildVertex(start, "if");
 }
 : IF bexpr THEN stmt+ ELSE stmt+ FI ;
 
@@ -156,11 +255,22 @@ whileStmt
 @init {
     CommonToken start = (CommonToken)input.LT(1);
 
-    Main.pushStatement(start, "while");
+    Main.buildVertex(start, "while");
 }
 : WHILE bexpr DO stmt+ OD ;
 
-program : PROGRAM decl* stmt+ END -> ^(PROGRAM decl stmt END);
+program
+@init {
+    CommonToken start = (CommonToken)input.LT(1);
+
+    Main.buildVertex(start, "program");
+}
+@after {
+    CommonToken end = (CommonToken)input.LT(1);
+
+    Main.assignVertex(end);
+}
+: PROGRAM decl* stmt+ END -> ^(PROGRAM decl stmt END);
 
 
 COMMENT : '(*' (options {greedy=false;} : .)* '*)' {$channel=HIDDEN;}

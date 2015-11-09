@@ -1,11 +1,12 @@
 package dk.dtu.student.programanalysis.implementation.statement;
 
 import dk.dtu.student.programanalysis.IStatement;
+import dk.dtu.student.programanalysis.implementation.BaseStatement;
 
 /**
  * Created by dx on 9/21/15.
  */
-public class StatementWrite extends Statement {
+public class StatementWrite extends BaseStatement {
 
     public StatementWrite(IStatement parent) {
         super(parent);
