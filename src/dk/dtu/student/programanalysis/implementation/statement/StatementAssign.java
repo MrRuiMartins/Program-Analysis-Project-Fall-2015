@@ -1,30 +1,44 @@
 package dk.dtu.student.programanalysis.implementation.statement;
 
-import dk.dtu.student.programanalysis.IStatement;
+import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
 import dk.dtu.student.programanalysis.implementation.BaseStatement;
+import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.jgrapht.UndirectedGraph;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by dx on 9/21/15.
  */
 public class StatementAssign extends BaseStatement {
 
-    public StatementAssign(IStatement parent) {
-        super(parent);
+    @Override
+    public void parse(ParserRuleContext context) {
     }
 
     @Override
-    public String getType() {
-        return "assign";
+    public Collection<? extends BaseMutableTreeNode> produceLabels() {
+        Set<BaseStatement> statements = (Set<BaseStatement>) super.produceLabels();
+
+        statements.add(this);
+
+        return statements;
     }
 
     @Override
-    public IStatement createInstance(IStatement parent) {
-        return new StatementAssign(parent);
+    public BaseMutableTreeNode produceInit() {
+        return null;
     }
 
     @Override
-    public void parse() {
-        start.setStopIndex(end.getStartIndex() - 2);
-        String text = start.getText();
+    public Set<BaseMutableTreeNode> produceFinals() {
+        return null;
+    }
+
+    @Override
+    public Collection<? extends UndirectedGraph<BaseMutableTreeNode, BaseMutableTreeNode>> produceFlows(FlowGraph graph) {
+        return null;
     }
 }
