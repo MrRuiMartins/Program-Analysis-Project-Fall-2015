@@ -46,6 +46,7 @@ public class StatementIf extends BaseStatement {
 
     @Override
     public UndirectedGraph<Label, DefaultEdge> produceFlows(UndirectedGraph<Label, DefaultEdge> graph) {
+        super.produceFlows(graph);
         BaseStatement endingStatement = super.getS2();
 
         //FLOW to S1

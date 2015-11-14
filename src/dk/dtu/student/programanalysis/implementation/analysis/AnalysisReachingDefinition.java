@@ -87,6 +87,8 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
         populateFunctions(graph);
         populateRDs(graph);
         populateRDs(graph);
+
+        System.out.println();
     }
 
     @Override
