@@ -8,8 +8,4 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Created by dx on 11/9/15.
  */
 public class BooleanExpression extends BaseMutableTreeNode {
-    @Override
-    public void parse(ParserRuleContext context) {
-
-    }
 }

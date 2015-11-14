@@ -1,7 +1,4 @@
-import dk.dtu.student.programanalysis.implementation.ArithmeticExpression;
-import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
-import dk.dtu.student.programanalysis.implementation.BooleanExpression;
-import dk.dtu.student.programanalysis.implementation.RootTreeNode;
+import dk.dtu.student.programanalysis.implementation.*;
 import dk.dtu.student.programanalysis.implementation.declaration.DeclarationInteger;
 import dk.dtu.student.programanalysis.implementation.statement.*;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -11,7 +8,13 @@ import org.antlr.v4.runtime.ParserRuleContext;
  */
 public class RuleContextFactory {
 
-    public static BaseMutableTreeNode produceNode(Class nodeClass, ParserRuleContext context) {
+    private BaseAnalysis analysis;
+
+    public RuleContextFactory(BaseAnalysis analysis) {
+        this.analysis = analysis;
+    }
+
+    public BaseMutableTreeNode produceNode(Class nodeClass, ParserRuleContext context) {
         BaseMutableTreeNode retval = null;
 
         if (nodeClass == TheLangParser.ProgramContext.class) {
@@ -56,10 +59,14 @@ public class RuleContextFactory {
 
         }
 
-        if(retval != null)
-            retval.parse(context);
-
         return retval;
     }
 
+    public void parseNode(BaseMutableTreeNode node, ParserRuleContext context) {
+
+        if(node != null) {
+            analysis.parse(node, context);
+        }
+
+    }
 }

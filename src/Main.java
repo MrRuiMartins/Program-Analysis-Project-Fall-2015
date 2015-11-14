@@ -1,5 +1,7 @@
+import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
 import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
 import dk.dtu.student.programanalysis.implementation.BaseStatement;
+import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -16,16 +18,30 @@ public class Main {
             new SimpleGraph<String, BaseStatement>(BaseStatement.class);
 
     public static void main(String[] args) throws Exception {
-        TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[0]));
+        // Check number of input
+        if(args.length < 2) {
+            System.out.println("Not enough parameter! java -jar programAnalysis.jar <Analysis> <Input file> ");
+            return;
+        }
+
+        // Parse the analysis input
+        String analysisString = args[0];
+
+        // Get Analysis from factory
+        AnalysisFactory analysisFactory = new AnalysisFactory();
+        BaseAnalysis analysis = analysisFactory.getInstance(analysisString);
+
+        TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[1]));
         CommonTokenStream tokens = new CommonTokenStream(lex);
         TheLangParser parser = new TheLangParser(tokens);
-        ProgramAnalysisListener listener = new ProgramAnalysisListener();
+        ProgramAnalysisListener listener = new ProgramAnalysisListener(analysis);
         parser.addParseListener(listener);
 
         try {
             TheLangParser.ProgramContext parserResult = parser.program();
 
             BaseMutableTreeNode rootTree = listener.getRootTree();
+            FlowGraph graph = new FlowGraph();
 
             Enumeration en = rootTree.preorderEnumeration();
             int i = 1;
@@ -38,9 +54,11 @@ public class Main {
 
                 if(BaseStatement.class.isAssignableFrom(node.getClass())) {
                     BaseStatement statement = (BaseStatement) node;
+                    graph.processStatement(statement);
 
                     System.out.println("label-" + i++ + ": " + object.getText());
                 }
+
             }
 
             System.out.println();

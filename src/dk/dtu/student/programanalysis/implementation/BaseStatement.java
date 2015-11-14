@@ -1,6 +1,7 @@
 package dk.dtu.student.programanalysis.implementation;
 
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
+import dk.dtu.student.programanalysis.implementation.label.LabelLine;
 import org.antlr.runtime.CommonToken;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.SimpleGraph;
@@ -15,45 +16,51 @@ import java.util.Set;
  */
 public abstract class BaseStatement extends BaseMutableTreeNode {
 
+    private Label l;
     private BaseStatement S1, S2;
+    private boolean isNotSequence = false;
 
-    public Collection<? extends BaseMutableTreeNode> produceLabels() {
-        Set<BaseStatement> labels = new HashSet<>();
+    public Collection<? extends Label> produceLabels() {
+        Set<Label> labels = new HashSet<>();
+        labels.add(getL());
         if(isSequence()) {
-            labels.add(S1);
-            labels.add(S2);
+            labels.add(S1.getL());
+            labels.add(S2.getL());
         }
         return labels;
     }
 
-    public BaseMutableTreeNode produceInit() {
-        if(isSequence()) {
+    public Label produceInit() {
+        if(isSequence() && S1 != this) {
             return S1.produceInit();
         }
-        return this;
+        return this.getL();
     }
 
-    public Set<BaseMutableTreeNode> produceFinals() {
-        Set<BaseMutableTreeNode> finals = new HashSet<>();
+    public Set<Label> produceFinals() {
+        Set<Label> finals = new HashSet<>();
         if(isSequence()) {
-            finals = S2.produceFinals();
+            finals.add(S2.getL());
+        }
+        else {
+            finals.add(getL());
         }
         return finals;
     }
 
-    public Collection<? extends UndirectedGraph<BaseMutableTreeNode,BaseMutableTreeNode>> produceFlows(FlowGraph graph) {
-        Set<UndirectedGraph<BaseMutableTreeNode, BaseMutableTreeNode>> flows = new HashSet<>();
+    public Collection<? extends UndirectedGraph<Label,Label>> produceFlows(FlowGraph graph) {
+        Set<UndirectedGraph<Label, Label>> flows = new HashSet<>();
         if(isSequence()) {
-            flows.addAll(S1.produceFlows(graph));
-            flows.addAll(S2.produceFlows(graph));
-            if(graph.getFinals().contains(this)) {
-                UndirectedGraph<BaseMutableTreeNode,BaseMutableTreeNode> flow =
-                        new SimpleGraph<BaseMutableTreeNode, BaseMutableTreeNode>(BaseMutableTreeNode.class);
-                flow.addVertex(S1);
-                flow.addVertex(S2);
-                flow.addEdge(S1, S2);
-                flows.add(flow);
-            }
+            UndirectedGraph<Label, Label> flow =
+                    new SimpleGraph<Label, Label>(Label.class);
+
+            System.out.println("Adding flow from " + S1.getL().toString() + " to " + S2.getL().toString());
+
+            flow.addVertex(S1.getL());
+            flow.addVertex(S2.getL());
+            flow.addEdge(S1.getL(), S2.getL());
+
+            flows.add(flow);
         }
         return flows;
     }
@@ -61,8 +68,8 @@ public abstract class BaseStatement extends BaseMutableTreeNode {
     /**
      * Check if this statement is S1;S2. If it is then do also the S1;S2 function
      */
-    private boolean isSequence() {
-        if(parent.getIndex(this) + 1 == parent.getChildCount()) {
+    public boolean isSequence() {
+        if(parent.getIndex(this) + 1 == parent.getChildCount() || isNotSequence) {
             // Nothing next, not a sequence
             return false;
         }
@@ -73,5 +80,25 @@ public abstract class BaseStatement extends BaseMutableTreeNode {
 
             return true;
         }
+    }
+
+    public Label getL() {
+        return l;
+    }
+
+    public void setL(Label l) {
+        this.l = l;
+    }
+
+    public BaseStatement getS1() {
+        return S1;
+    }
+
+    public BaseStatement getS2() {
+        return S2;
+    }
+
+    public void setIsNotSequence(boolean isNotSequence) {
+        this.isNotSequence = isNotSequence;
     }
 }

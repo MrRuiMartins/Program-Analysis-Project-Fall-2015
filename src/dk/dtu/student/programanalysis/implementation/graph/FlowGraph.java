@@ -2,6 +2,7 @@ package dk.dtu.student.programanalysis.implementation.graph;
 
 import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
 import dk.dtu.student.programanalysis.implementation.BaseStatement;
+import dk.dtu.student.programanalysis.implementation.Label;
 import org.jgrapht.UndirectedGraph;
 
 import java.util.ArrayDeque;
@@ -16,10 +17,10 @@ public class FlowGraph {
 
     Queue<BaseStatement> statements;
 
-    private Set<BaseMutableTreeNode> labels;
-    private BaseMutableTreeNode init;
-    private Set<BaseMutableTreeNode> finals;
-    private Set<UndirectedGraph<BaseMutableTreeNode, BaseMutableTreeNode>> flow;
+    private Set<Label> labels;
+    private Label init;
+    private Set<Label> finals;
+    private Set<UndirectedGraph<Label, Label>> flow;
 
     public FlowGraph() {
         statements = new ArrayDeque<>();
@@ -38,33 +39,34 @@ public class FlowGraph {
 
         labels.addAll(statement.produceLabels());
 
-        init = statement.produceInit();
+        // Only produce Init if it is the first statement
+        if(((BaseMutableTreeNode)statement.getParent()).getChildBefore(statement) == null) {
+            init = statement.produceInit();
+        }
 
-        finals = statement.produceFinals();
+        // Only produce Init if it is the first statement
+        if(((BaseMutableTreeNode)statement.getParent()).getChildAfter(statement) == null) {
+            finals = statement.produceFinals();
+        }
+
+        flow.addAll(statement.produceFlows(this));
 
         statements.add(statement);
     }
 
-    public void produceFlow() {
-        while(!statements.isEmpty()) {
-            BaseStatement statement = statements.poll();
-            flow.addAll(statement.produceFlows(this));
-        }
-    }
-
-    public Set<BaseMutableTreeNode> getLabels() {
+    public Set<Label> getLabels() {
         return labels;
     }
 
-    public BaseMutableTreeNode getInit() {
+    public Label getInit() {
         return init;
     }
 
-    public Set<BaseMutableTreeNode> getFinals() {
+    public Set<Label> getFinals() {
         return finals;
     }
 
-    public Set<UndirectedGraph<BaseMutableTreeNode, BaseMutableTreeNode>> getFlow() {
+    public Set<UndirectedGraph<Label, Label>> getFlow() {
         return flow;
     }
 }

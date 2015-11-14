@@ -1,3 +1,4 @@
+import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
 import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
 import dk.dtu.student.programanalysis.implementation.RootTreeNode;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -14,11 +15,17 @@ public class ProgramAnalysisListener extends TheLangBaseListener {
 
     private BaseMutableTreeNode rootTree;
 
+    private RuleContextFactory ruleContextFactory;
+
+    public ProgramAnalysisListener(BaseAnalysis analysis) {
+        ruleContextFactory = new RuleContextFactory(analysis);
+    }
+
     @Override
     public void enterEveryRule(ParserRuleContext ctx) {
         super.enterEveryRule(ctx);
 
-        BaseMutableTreeNode node = RuleContextFactory.produceNode(ctx.getClass(), ctx);
+        BaseMutableTreeNode node = ruleContextFactory.produceNode(ctx.getClass(), ctx);
 
         if(node == null) return;
 
@@ -45,6 +52,7 @@ public class ProgramAnalysisListener extends TheLangBaseListener {
 
             if(nodeCtx == ctx) {
                 parentNodes.pop();
+                ruleContextFactory.parseNode(node, ctx);
             }
         }
     }
