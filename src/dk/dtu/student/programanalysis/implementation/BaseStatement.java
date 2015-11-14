@@ -2,8 +2,10 @@ package dk.dtu.student.programanalysis.implementation;
 
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import dk.dtu.student.programanalysis.implementation.label.LabelLine;
+import dk.dtu.student.programanalysis.implementation.set.IntervalSet;
 import org.antlr.runtime.CommonToken;
 import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -48,21 +50,15 @@ public abstract class BaseStatement extends BaseMutableTreeNode {
         return finals;
     }
 
-    public Collection<? extends UndirectedGraph<Label,Label>> produceFlows(FlowGraph graph) {
-        Set<UndirectedGraph<Label, Label>> flows = new HashSet<>();
+    public UndirectedGraph<Label,DefaultEdge> produceFlows(UndirectedGraph<Label,DefaultEdge> graph) {
         if(isSequence()) {
-            UndirectedGraph<Label, Label> flow =
-                    new SimpleGraph<Label, Label>(Label.class);
-
             System.out.println("Adding flow from " + S1.getL().toString() + " to " + S2.getL().toString());
 
-            flow.addVertex(S1.getL());
-            flow.addVertex(S2.getL());
-            flow.addEdge(S1.getL(), S2.getL());
-
-            flows.add(flow);
+            graph.addVertex(S1.getL());
+            graph.addVertex(S2.getL());
+            graph.addEdge(S1.getL(), S2.getL());
         }
-        return flows;
+        return graph;
     }
 
     /**
@@ -101,4 +97,5 @@ public abstract class BaseStatement extends BaseMutableTreeNode {
     public void setIsNotSequence(boolean isNotSequence) {
         this.isNotSequence = isNotSequence;
     }
+
 }

@@ -10,7 +10,8 @@ public class LabelLine extends Label {
     private String symbol;
     private int lineNumber;
 
-    public LabelLine(String symbol, int lineNumber) {
+    public LabelLine(Class statementClass, String symbol, int lineNumber) {
+        super(statementClass);
         this.symbol = symbol;
         this.lineNumber = lineNumber;
     }
@@ -21,6 +22,10 @@ public class LabelLine extends Label {
 
     public void setLineNumber(int lineNumber) {
         this.lineNumber = lineNumber;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 
     @Override

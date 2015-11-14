@@ -47,9 +47,10 @@ public class RuleContextFactory {
                 nodeClass == TheLangParser.Aexpr3Context.class) {
             retval = new ArithmeticExpression();
         }
-        else if (nodeClass == TheLangParser.BexprContext.class ||
-                nodeClass == TheLangParser.Bexpr1Context.class ||
-                nodeClass == TheLangParser.Bexpr2Context.class) {
+        else if (nodeClass == TheLangParser.BexprContext.class
+                || nodeClass == TheLangParser.Bexpr1Context.class
+                || nodeClass == TheLangParser.Bexpr2Context.class
+                ) {
             retval = new BooleanExpression();
         }
         else if (nodeClass == TheLangParser.AssignArrayStmtContext.class) {

@@ -1,6 +1,7 @@
 import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
 import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
 import dk.dtu.student.programanalysis.implementation.BaseStatement;
+import dk.dtu.student.programanalysis.implementation.Label;
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -61,7 +62,10 @@ public class Main {
 
             }
 
-            System.out.println();
+            analysis.doAnalysis(graph);
+
+            System.out.println(analysis.printResult());
+
 //            CommonTree t = (CommonTree) parserResult.getTree();
 //            CommonTree t2 = (CommonTree) t.getChild(0);
 //            int startToken = t2.getTokenStartIndex();

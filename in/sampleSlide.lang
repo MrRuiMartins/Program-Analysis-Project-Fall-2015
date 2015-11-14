@@ -2,8 +2,8 @@ program
 (*int x;*)
 (*int y;*)
 (*int z;*)
-(*y := x ;*)
-(*z := 1 ;*)
+y := x ;
+z := 1 ;
 while (y > 0) do
 z := z * y;
 y := y - 1;
@@ -15,6 +15,6 @@ od
 (*write z;*)
 (*z := 0;*)
 (*fi*)
-(*y := 0;*)
+y := 0;
 end
 

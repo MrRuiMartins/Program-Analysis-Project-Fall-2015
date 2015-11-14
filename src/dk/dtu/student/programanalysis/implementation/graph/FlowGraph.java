@@ -4,11 +4,10 @@ import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
 import dk.dtu.student.programanalysis.implementation.BaseStatement;
 import dk.dtu.student.programanalysis.implementation.Label;
 import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by dx on 11/10/15.
@@ -20,7 +19,8 @@ public class FlowGraph {
     private Set<Label> labels;
     private Label init;
     private Set<Label> finals;
-    private Set<UndirectedGraph<Label, Label>> flow;
+    private UndirectedGraph<Label, DefaultEdge> flow;
+    private DefaultEdge initEdge;
 
     public FlowGraph() {
         statements = new ArrayDeque<>();
@@ -28,7 +28,7 @@ public class FlowGraph {
         labels = new HashSet<>();
         init = null;
         finals = new HashSet<>();
-        flow = new HashSet<>();
+        flow = new SimpleGraph<Label, DefaultEdge>(DefaultEdge.class);
     }
 
     /**
@@ -49,7 +49,15 @@ public class FlowGraph {
             finals = statement.produceFinals();
         }
 
-        flow.addAll(statement.produceFlows(this));
+        boolean isAssigningInitFlow = false;
+        if(flow.edgeSet().size() == 0) {
+            isAssigningInitFlow = true;
+        }
+        flow = statement.produceFlows(flow);
+        if(isAssigningInitFlow) {
+            Set<DefaultEdge> edgeSet = flow.edgeSet();
+            initEdge = edgeSet.iterator().next();
+        }
 
         statements.add(statement);
     }
@@ -66,7 +74,11 @@ public class FlowGraph {
         return finals;
     }
 
-    public Set<UndirectedGraph<Label, Label>> getFlow() {
+    public UndirectedGraph<Label, DefaultEdge> getFlow() {
         return flow;
+    }
+
+    public DefaultEdge getInitEdge() {
+        return initEdge;
     }
 }

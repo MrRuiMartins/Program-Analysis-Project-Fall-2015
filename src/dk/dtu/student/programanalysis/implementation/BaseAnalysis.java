@@ -1,5 +1,6 @@
 package dk.dtu.student.programanalysis.implementation;
 
+import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import dk.dtu.student.programanalysis.implementation.statement.StatementAssign;
 import dk.dtu.student.programanalysis.implementation.statement.StatementIf;
 import dk.dtu.student.programanalysis.implementation.statement.StatementWhile;
@@ -83,4 +84,8 @@ public abstract class BaseAnalysis {
     }
 
     public abstract void parse(StatementWrite node, ParserRuleContext context);
+
+    public abstract void doAnalysis(FlowGraph graph);
+
+    public abstract String printResult();
 }

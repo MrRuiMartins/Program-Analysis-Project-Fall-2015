@@ -45,30 +45,18 @@ public class StatementIf extends BaseStatement {
     }
 
     @Override
-    public Collection<? extends UndirectedGraph<Label, Label>> produceFlows(FlowGraph graph) {
-        Set<UndirectedGraph<Label, Label>> flows = new HashSet<>();
-
+    public UndirectedGraph<Label, DefaultEdge> produceFlows(UndirectedGraph<Label, DefaultEdge> graph) {
         BaseStatement endingStatement = super.getS2();
 
         //FLOW to S1
-        UndirectedGraph<Label, Label> flowToS1 =
-                new SimpleGraph<Label, Label>(Label.class);
-
-        flowToS1.addVertex(getL());
-        flowToS1.addVertex(S1.produceInit());
-        flowToS1.addEdge(getL(), S1.produceInit());
-
-        flows.add(flowToS1);
+        graph.addVertex(getL());
+        graph.addVertex(S1.produceInit());
+        graph.addEdge(getL(), S1.produceInit());
 
         //FLOW to S2
-        UndirectedGraph<Label, Label> flowToS2 =
-                new SimpleGraph<Label, Label>(Label.class);
-
-        flowToS2.addVertex(getL());
-        flowToS2.addVertex(S2.produceInit());
-        flowToS2.addEdge(getL(), S2.produceInit());
-
-        flows.add(flowToS2);
+        graph.addVertex(getL());
+        graph.addVertex(S2.produceInit());
+        graph.addEdge(getL(), S2.produceInit());
 
         if(endingStatement != null) {
             // Extract all S1es flows
@@ -78,14 +66,9 @@ public class StatementIf extends BaseStatement {
             }
 
             // Add last S to ending S
-            UndirectedGraph<Label, Label> flowS1tempToL =
-                    new SimpleGraph<Label, Label>(Label.class);
-
-            flowS1tempToL.addVertex(tempS1.produceInit());
-            flowS1tempToL.addVertex(endingStatement.getL());
-            flowS1tempToL.addEdge(tempS1.produceInit(), endingStatement.getL());
-
-            flows.add(flowS1tempToL);
+            graph.addVertex(tempS1.produceInit());
+            graph.addVertex(endingStatement.getL());
+            graph.addEdge(tempS1.produceInit(), endingStatement.getL());
 
             // Extract all S2es flows
             BaseStatement tempS2 = S2;
@@ -94,17 +77,12 @@ public class StatementIf extends BaseStatement {
             }
 
             // Add last S2 to ending S
-            UndirectedGraph<Label, Label> flowS2tempToL =
-                    new SimpleGraph<Label, Label>(Label.class);
-
-            flowS2tempToL.addVertex(tempS2.produceInit());
-            flowS2tempToL.addVertex(endingStatement.getL());
-            flowS2tempToL.addEdge(tempS2.produceInit(), endingStatement.getL());
-
-            flows.add(flowS2tempToL);
+            graph.addVertex(tempS2.produceInit());
+            graph.addVertex(endingStatement.getL());
+            graph.addEdge(tempS2.produceInit(), endingStatement.getL());
         }
 
-        return flows;
+        return graph;
     }
 
     public BaseStatement getS1() {

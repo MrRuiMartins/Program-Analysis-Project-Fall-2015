@@ -5,4 +5,13 @@ package dk.dtu.student.programanalysis.implementation;
  */
 public class Label {
 
+    private Class statementClass;
+
+    public Label(Class statementClass) {
+        this.statementClass = statementClass;
+    }
+
+    public Class getStatementClass() {
+        return statementClass;
+    }
 }

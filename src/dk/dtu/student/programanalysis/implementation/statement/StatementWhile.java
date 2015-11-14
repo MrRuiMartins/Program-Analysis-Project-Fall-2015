@@ -7,6 +7,7 @@ import dk.dtu.student.programanalysis.implementation.Label;
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
 import java.security.acl.LastOwnerException;
@@ -33,19 +34,14 @@ public class StatementWhile extends BaseStatement {
     }
 
     @Override
-    public Collection<? extends UndirectedGraph<Label, Label>> produceFlows(FlowGraph graph) {
-        Set<UndirectedGraph<Label, Label>> flows = new HashSet<>();
+    public UndirectedGraph<Label, DefaultEdge> produceFlows(UndirectedGraph<Label, DefaultEdge> graph) {
+        graph = super.produceFlows(graph);
 
-        flows.addAll(super.produceFlows(graph));
+        graph.addVertex(getL());
+        graph.addVertex(S.produceInit());
+        graph.addEdge(getL(), S.produceInit());
 
-        UndirectedGraph<Label, Label> flowLToInitS =
-                new SimpleGraph<Label, Label>(Label.class);
-
-        flowLToInitS.addVertex(getL());
-        flowLToInitS.addVertex(S.produceInit());
-        flowLToInitS.addEdge(getL(), S.produceInit());
-
-        flows.add(flowLToInitS);
+        System.out.println("Adding flow from " + getL().toString() + " to " + S.produceInit().toString());
 
         // Extract all Ses flows
         BaseStatement tempS = S;
@@ -55,16 +51,13 @@ public class StatementWhile extends BaseStatement {
         }
 
         // Add last S to this while S
-        UndirectedGraph<Label, Label> flowStempToL =
-                new SimpleGraph<Label, Label>(Label.class);
+        graph.addVertex(tempS.produceInit());
+        graph.addVertex(getL());
+        graph.addEdge(tempS.produceInit(), getL());
 
-        flowStempToL.addVertex(tempS.produceInit());
-        flowStempToL.addVertex(getL());
-        flowStempToL.addEdge(tempS.produceInit(), getL());
+        System.out.println("Adding flow from " + tempS.produceInit().toString() + " to " + getL().toString());
 
-        flows.add(flowStempToL);
-
-        return flows;
+        return graph;
     }
 
     public BaseStatement getS() {
