@@ -1,10 +1,7 @@
 package dk.dtu.student.programanalysis.implementation;
 
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
-import dk.dtu.student.programanalysis.implementation.statement.StatementAssign;
-import dk.dtu.student.programanalysis.implementation.statement.StatementIf;
-import dk.dtu.student.programanalysis.implementation.statement.StatementWhile;
-import dk.dtu.student.programanalysis.implementation.statement.StatementWrite;
+import dk.dtu.student.programanalysis.implementation.statement.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
@@ -24,18 +21,32 @@ public abstract class BaseAnalysis {
         if(nodeClass == StatementAssign.class) {
             parse((StatementAssign)node, context);
         }
+        else if(nodeClass == StatementAssignArray.class) {
+            parse((StatementAssignArray)node, context);
+        }
         else if(nodeClass == StatementIf.class) {
             parse((StatementIf)node, context);
         }
-        else if(nodeClass == StatementWhile.class) {
-            parse((StatementWhile)node, context);
+        else if(nodeClass == StatementRead.class) {
+            parse((StatementRead)node, context);
+        }
+        else if(nodeClass == StatementReadArray.class) {
+            parse((StatementReadArray)node, context);
+        }
+        else if(nodeClass == StatementSkip.class) {
+            parse((StatementSkip)node, context);
         }
         else if(nodeClass == StatementWrite.class) {
             parse((StatementWrite)node, context);
         }
+        else if(nodeClass == StatementWhile.class) {
+            parse((StatementWhile)node, context);
+        }
     }
 
     public abstract void parse(StatementAssign node, ParserRuleContext context);
+
+    public abstract void parse(StatementAssignArray node, ParserRuleContext context);
 
     public void parse(StatementIf node, ParserRuleContext context) {
         for(int i = 0; i < context.getChildCount(); i++) {
@@ -77,6 +88,12 @@ public abstract class BaseAnalysis {
         }
 
     }
+
+    public abstract void parse(StatementRead node, ParserRuleContext context);
+
+    public abstract void parse(StatementReadArray node, ParserRuleContext context);
+
+    public abstract void parse(StatementSkip node, ParserRuleContext context);
 
     public void parse(StatementWhile node, ParserRuleContext context) {
         BaseStatement child = (BaseStatement) node.getChildAt(1);

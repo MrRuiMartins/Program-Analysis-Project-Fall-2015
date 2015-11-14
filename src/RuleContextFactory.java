@@ -54,10 +54,10 @@ public class RuleContextFactory {
             retval = new BooleanExpression();
         }
         else if (nodeClass == TheLangParser.AssignArrayStmtContext.class) {
-
+            retval = new StatementAssignArray();
         }
         else if (nodeClass == TheLangParser.ReadArrayStmtContext.class) {
-
+            retval = new StatementReadArray();
         }
 
         return retval;

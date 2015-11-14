@@ -4,10 +4,7 @@ import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
 import dk.dtu.student.programanalysis.implementation.Label;
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import dk.dtu.student.programanalysis.implementation.label.LabelLine;
-import dk.dtu.student.programanalysis.implementation.statement.StatementAssign;
-import dk.dtu.student.programanalysis.implementation.statement.StatementIf;
-import dk.dtu.student.programanalysis.implementation.statement.StatementWhile;
-import dk.dtu.student.programanalysis.implementation.statement.StatementWrite;
+import dk.dtu.student.programanalysis.implementation.statement.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 import org.jgrapht.UndirectedGraph;
@@ -49,9 +46,49 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     }
 
     @Override
+    public void parse(StatementAssignArray node, ParserRuleContext context) {
+        // Get Symbol for line
+        TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
+        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
+
+        node.setL(label);
+    }
+
+    @Override
     public void parse(StatementIf node, ParserRuleContext context) {
         super.parse(node, context);
 
+        // Get Symbol for line
+        TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
+        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
+
+        node.setL(label);
+    }
+
+    @Override
+    public void parse(StatementRead node, ParserRuleContext context) {
+        // Get Symbol for line
+        TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
+        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
+
+        node.setL(label);
+    }
+
+    @Override
+    public void parse(StatementReadArray node, ParserRuleContext context) {
+        // Get Symbol for line
+        TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
+        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
+
+        node.setL(label);
+    }
+
+    @Override
+    public void parse(StatementSkip node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
         Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
@@ -276,7 +313,10 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     private void generateGen(LabelLine l, Set<Label> labels) {
         Set<LabelLine> killSet = new HashSet<>();
 
-        if(l.getStatementClass().equals(StatementAssign.class)) {
+        if(l.getStatementClass().equals(StatementAssign.class)
+                || l.getStatementClass().equals(StatementAssignArray.class)
+                || l.getStatementClass().equals(StatementRead.class)
+                || l.getStatementClass().equals(StatementReadArray.class)) {
             killSet.add(l);
         }
 
@@ -286,7 +326,13 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     private void generateKill(LabelLine l, Set<Label> labels) {
         Set<LabelLine> killSet = new HashSet<>();
 
-        if(l.getStatementClass().equals(StatementAssign.class)) {
+        // Add all related to the symbol. This is same for
+        // normal assignment and array assignment also same
+        // for read and array read
+        if(l.getStatementClass().equals(StatementAssign.class)
+                || l.getStatementClass().equals(StatementAssignArray.class)
+                || l.getStatementClass().equals(StatementRead.class)
+                || l.getStatementClass().equals(StatementReadArray.class)) {
             Iterator<Label> iterator = labels.iterator();
             while(iterator.hasNext()) {
                 LabelLine checkLabel = (LabelLine) iterator.next();
