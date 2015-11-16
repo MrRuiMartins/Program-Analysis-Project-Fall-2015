@@ -8,13 +8,13 @@ while (y > 0) do
 z := z * y;
 y := y - 1;
 od
-if(y = 0) then
-x := 0;
-write y;
-else
-write z;
-z := 0;
-fi
+(*if(y = 0) then*)
+(*x := 0;*)
+(*write y;*)
+(*else*)
+(*write z;*)
+(*z := 0;*)
+(*fi*)
 y := 0;
 end
 

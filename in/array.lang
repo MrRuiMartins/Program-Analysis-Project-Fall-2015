@@ -1,8 +1,8 @@
 program
-low int a;
-low int A[10];
-high int x;
-int z;
+(*low int a;*)
+(*low int A[10];*)
+(*high int x;*)
+(*int z;*)
 a:=1;
 A[a]:=10;
 skip;

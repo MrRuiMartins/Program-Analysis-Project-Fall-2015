@@ -3,8 +3,11 @@ package dk.dtu.student.programanalysis.implementation.graph;
 import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
 import dk.dtu.student.programanalysis.implementation.BaseStatement;
 import dk.dtu.student.programanalysis.implementation.Label;
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.Graph;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.graph.SimpleGraph;
 
 import java.util.*;
@@ -19,7 +22,7 @@ public class FlowGraph {
     private Set<Label> labels;
     private Label init;
     private Set<Label> finals;
-    private UndirectedGraph<Label, DefaultEdge> flow;
+    private DirectedGraph<Label, DefaultEdge> flow;
     private DefaultEdge initEdge;
 
     public FlowGraph() {
@@ -28,7 +31,7 @@ public class FlowGraph {
         labels = new HashSet<>();
         init = null;
         finals = new HashSet<>();
-        flow = new SimpleGraph<Label, DefaultEdge>(DefaultEdge.class);
+        flow = new SimpleDirectedGraph<Label, DefaultEdge>(DefaultEdge.class);
     }
 
     /**
@@ -62,7 +65,7 @@ public class FlowGraph {
         statements.add(statement);
     }
 
-    public Set<Label> getLabels() {
+    public Set<? extends Label> getLabels() {
         return labels;
     }
 
@@ -74,7 +77,7 @@ public class FlowGraph {
         return finals;
     }
 
-    public UndirectedGraph<Label, DefaultEdge> getFlow() {
+    public DirectedGraph<? extends Label, DefaultEdge> getFlow() {
         return flow;
     }
 

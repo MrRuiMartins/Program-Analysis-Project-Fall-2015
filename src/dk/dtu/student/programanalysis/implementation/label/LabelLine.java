@@ -10,6 +10,8 @@ public class LabelLine extends Label {
     private String symbol;
     private int lineNumber;
 
+    public static final int LABELLINE_ANYWHERE = Integer.MAX_VALUE;
+
     public LabelLine(Class statementClass, String symbol, int lineNumber) {
         super(statementClass);
         this.symbol = symbol;

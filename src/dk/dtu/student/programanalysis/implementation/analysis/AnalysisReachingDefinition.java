@@ -7,7 +7,7 @@ import dk.dtu.student.programanalysis.implementation.label.LabelLine;
 import dk.dtu.student.programanalysis.implementation.statement.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
-import org.jgrapht.UndirectedGraph;
+import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
 import java.util.*;
@@ -23,11 +23,15 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     Map<LabelLine, Set<LabelLine>> killFunction;
     Map<LabelLine, Set<LabelLine>> genFunction;
 
+    Map<String, LabelLine> extremeValuesList;
+
     public AnalysisReachingDefinition() {
         RDEnter = new HashMap<>();
         RDLeave = new HashMap<>();
         killFunction = new HashMap<>();
         genFunction = new HashMap<>();
+
+        extremeValuesList = new HashMap<>();
     }
 
     @Override
@@ -121,11 +125,31 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
 
     @Override
     public void doAnalysis(FlowGraph graph) {
+        produceExtremes(graph);
         populateFunctions(graph);
-        populateRDs(graph);
-        populateRDs(graph);
+        super.doAnalysis(graph);
 
         System.out.println();
+    }
+
+    @Override
+    protected Set<? extends Label> getExtremeValue(Set<? extends Label> labels) {
+        Set<Label> extremeValues = new HashSet<>();
+
+        for(Label label : labels) {
+            LabelLine ll = (LabelLine) label;
+            ll = extremeValuesList.get(ll.getSymbol());
+            if(ll != null) {
+                extremeValues.add(ll);
+            }
+        }
+
+        return extremeValues;
+    }
+
+    @Override
+    protected Set<? extends Label> getBottomValue() {
+        return new HashSet<>();
     }
 
     @Override
@@ -144,173 +168,107 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
         return result;
     }
 
-    private void populateFunctions(FlowGraph graph) {
-        UndirectedGraph<Label, DefaultEdge> flows = graph.getFlow();
-        DefaultEdge initEdge = graph.getInitEdge();
-        Set<DefaultEdge> checkedEdge = new HashSet<>();
+    @Override
+    protected Set<? extends Label> analyseComponent(Label l) {
+        Set<LabelLine> result = new HashSet<>();
+        result.addAll(RDEnter.get(l));
+        result.removeAll(killFunction.get(l));
+        result.addAll(genFunction.get(l));
 
-        // Open the initEdge and put it in the checkedSet
-        checkedEdge.add(initEdge);
+        RDLeave.put((LabelLine) l, result);
 
-        // Process initial edge
-        processFunctions(graph, initEdge, false);
+        return result;
+    }
 
-        // Get the next edges
-        Label targetVertex = flows.getEdgeTarget(initEdge);
-        Set<DefaultEdge> edgeSet = new HashSet<>();
-        edgeSet.addAll(flows.edgesOf(targetVertex));
+    @Override
+    protected Set<? extends Label> getAnalysisResult(Label l) {
+        return RDEnter.get(l);
+    }
 
-        // Repeat previous processes until all edges are visited
-        edgeSet.removeAll(checkedEdge);
-        while(edgeSet.size() > 0) {
-            Set<DefaultEdge> generatedEdges = new HashSet<>();
-            // If edgeSet is bigger than 0, open all the edges
-            Iterator<DefaultEdge> edgeIterator = edgeSet.iterator();
-            while(edgeIterator.hasNext()) {
-                DefaultEdge edge = edgeIterator.next();
+    @Override
+    protected void setAnalysisResult(Label l, Set<? extends Label> newSet) {
+        RDEnter.put((LabelLine)l, (Set<LabelLine>) newSet);
+    }
 
-                processFunctions(graph, edge, false);
+    private void produceExtremes(FlowGraph graph) {
+        Set<LabelLine> labels = (Set<LabelLine>) graph.getLabels();
 
-                checkedEdge.add(edge);
-
-                boolean isLastNode = true;
-
-                targetVertex = flows.getEdgeTarget(edge);
-                Set<DefaultEdge> generatedEdgesCandidate = flows.edgesOf(targetVertex);
-                for(DefaultEdge generatedEdgeCandidate : generatedEdgesCandidate) {
-                    if(flows.getEdgeSource(generatedEdgeCandidate) == targetVertex) {
-                        generatedEdges.add(generatedEdgeCandidate);
-                        isLastNode = false;
-                    }
-                }
-
-                // Done, but last vertex has not been checked
-                if(isLastNode) {
-                    processFunctions(graph, edge, true);
+        for(Label label : labels) {
+            LabelLine ll = (LabelLine) label;
+            ll = extremeValuesList.get(ll.getSymbol());
+            if(ll == null) {
+                ll = (LabelLine) label;
+                LabelLine newLabelLine = new LabelLine(ll.getStatementClass(),
+                        ll.getSymbol(), ll.getLineNumber());
+                newLabelLine.setLineNumber(LabelLine.LABELLINE_ANYWHERE);
+                if(!ll.getStatementClass().equals(StatementSkip.class)
+                        && !ll.getStatementClass().equals(StatementIf.class)
+                        && !ll.getStatementClass().equals(StatementWhile.class)
+                        && !ll.getStatementClass().equals(StatementWrite.class)
+                        ) {
+                    extremeValuesList.put(newLabelLine.getSymbol(), newLabelLine);
                 }
             }
-            edgeSet.addAll(generatedEdges);
+        }
+    }
+
+    private void populateFunctions(FlowGraph graph) {
+        DirectedGraph<Label, DefaultEdge> flows = (DirectedGraph<Label, DefaultEdge>) graph.getFlow();
+        Set<DefaultEdge> checkedEdge = new HashSet<>();
+
+        Queue<DefaultEdge> edgeSet = new ArrayDeque<>();
+        // Open the initEdge and put it in the checkedSet
+        edgeSet.addAll(flows.edgesOf(graph.getInit()));
+
+        // Repeat previous processes until all edges are visited
+        while(edgeSet.size() > 0) {
+            DefaultEdge edge = edgeSet.poll();
+
+            // Open the edge and put it in the checkedSet
+            checkedEdge.add(edge);
+            // Process edge
+            produceFunctions(graph, edge);
+
+            // Get next edge
+            Label nextVertex = flows.getEdgeTarget(edge);
+            Set<DefaultEdge> nextEdgeCandidates = flows.edgesOf(nextVertex);
+            // Only take where nextVertex is the source of the edge
+            for(DefaultEdge nextEdgeCandidate : nextEdgeCandidates) {
+                if(flows.getEdgeSource(nextEdgeCandidate).equals(nextVertex)) {
+                    if(!checkedEdge.contains(nextEdgeCandidate)) {
+                        edgeSet.add(nextEdgeCandidate);
+                    }
+                }
+            }
+
             edgeSet.removeAll(checkedEdge);
         }
     }
 
-    private void processFunctions(FlowGraph graph, DefaultEdge edge, boolean isLast) {
-        UndirectedGraph<Label, DefaultEdge> flow = graph.getFlow();
+    private void produceFunctions(FlowGraph graph, DefaultEdge edge) {
+        DirectedGraph<LabelLine, DefaultEdge> flow = (DirectedGraph<LabelLine, DefaultEdge>) graph.getFlow();
+
+        // Determine is last
+        Label lpp = flow.getEdgeTarget(edge);
+        Set<Label> finals = graph.getFinals();
+        boolean isLast = finals.contains(lpp);
+
         LabelLine l;
         if(!isLast) {
-            l = (LabelLine) flow.getEdgeSource(edge);
+            l = flow.getEdgeSource(edge);
         }
         else {
-            l = (LabelLine) flow.getEdgeTarget(edge);
+            l = flow.getEdgeTarget(edge);
         }
 
         // Generate Kill functions
-        generateKill(l, graph.getLabels());
+        generateKill(l, (Set<LabelLine>) graph.getLabels());
 
         // Generate Gen functions
-        generateGen(l, graph.getLabels());
+        generateGen(l, (Set<LabelLine>) graph.getLabels());
     }
 
-    private void populateRDs(FlowGraph graph) {
-        UndirectedGraph<Label, DefaultEdge> flows = graph.getFlow();
-        DefaultEdge initEdge = graph.getInitEdge();
-        Set<DefaultEdge> checkedEdge = new HashSet<>();
-
-        // Open the initEdge and put it in the checkedSet
-        checkedEdge.add(initEdge);
-
-        // Process initial edge
-        processRDs(graph, initEdge, false);
-
-        // Get the next edges
-        Label targetVertex = flows.getEdgeTarget(initEdge);
-        Set<DefaultEdge> edgeSet = new HashSet<>();
-        edgeSet.addAll(flows.edgesOf(targetVertex));
-
-        // Repeat previous processes until all edges are visited
-        edgeSet.removeAll(checkedEdge);
-        while(edgeSet.size() > 0) {
-            Set<DefaultEdge> generatedEdges = new HashSet<>();
-            // If edgeSet is bigger than 0, open all the edges
-            Iterator<DefaultEdge> edgeIterator = edgeSet.iterator();
-            while(edgeIterator.hasNext()) {
-                DefaultEdge edge = edgeIterator.next();
-
-                processRDs(graph, edge, false);
-
-                checkedEdge.add(edge);
-
-                boolean isLastNode = true;
-
-                targetVertex = flows.getEdgeTarget(edge);
-                Set<DefaultEdge> generatedEdgesCandidate = flows.edgesOf(targetVertex);
-                for(DefaultEdge generatedEdgeCandidate : generatedEdgesCandidate) {
-                    if(flows.getEdgeSource(generatedEdgeCandidate) == targetVertex) {
-                        generatedEdges.add(generatedEdgeCandidate);
-                        isLastNode = false;
-                    }
-                }
-
-                // Done, but last vertex has not been checked
-                if(isLastNode) {
-                    processRDs(graph, edge, true);
-                }
-            }
-            edgeSet.addAll(generatedEdges);
-            edgeSet.removeAll(checkedEdge);
-        }
-    }
-
-    private void processRDs(FlowGraph graph, DefaultEdge edge, boolean isLast) {
-        UndirectedGraph<Label, DefaultEdge> flow = graph.getFlow();
-        LabelLine l;
-        if(!isLast) {
-            l = (LabelLine) flow.getEdgeSource(edge);
-        }
-        else {
-            l = (LabelLine) flow.getEdgeTarget(edge);
-        }
-
-        // Generate R enter
-        generateRDEnter(l, graph.getFlow(), graph.getInit());
-
-        // Generate R leave
-        generateRDLeave(l);
-    }
-
-    private void generateRDEnter(LabelLine l, UndirectedGraph<Label, DefaultEdge> flow, Label initLabel) {
-        if(l == initLabel) {
-            Set<LabelLine> labels = new HashSet<>();
-            labels.add(l);
-
-            RDEnter.put(l, labels);
-        }
-        else {
-            Set<LabelLine> rEnterSet = new HashSet<>();
-
-            Set<DefaultEdge> checkEdgeSet = flow.edgesOf(l);
-            for(DefaultEdge checkEdge : checkEdgeSet) {
-                LabelLine checkL = (LabelLine) flow.getEdgeSource(checkEdge);
-                LabelLine checkLprime = (LabelLine) flow.getEdgeTarget(checkEdge);
-                if(checkLprime.equals(l) && RDLeave.containsKey(checkL)) {
-                    rEnterSet.addAll(RDLeave.get(checkL));
-                }
-            }
-
-            RDEnter.put(l, rEnterSet);
-        }
-    }
-
-    private void generateRDLeave(LabelLine l) {
-        Set<LabelLine> rLeaveSet = new HashSet<>();
-        rLeaveSet.addAll(RDEnter.get(l));
-        rLeaveSet.removeAll(killFunction.get(l));
-        rLeaveSet.addAll(genFunction.get(l));
-
-        RDLeave.put(l, rLeaveSet);
-    }
-
-    private void generateGen(LabelLine l, Set<Label> labels) {
+    private void generateGen(LabelLine l, Set<LabelLine> labels) {
         Set<LabelLine> killSet = new HashSet<>();
 
         if(l.getStatementClass().equals(StatementAssign.class)
@@ -323,7 +281,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
         genFunction.put(l, killSet);
     }
 
-    private void generateKill(LabelLine l, Set<Label> labels) {
+    private void generateKill(LabelLine l, Set<LabelLine> labels) {
         Set<LabelLine> killSet = new HashSet<>();
 
         // Add all related to the symbol. This is same for
@@ -333,7 +291,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
                 || l.getStatementClass().equals(StatementAssignArray.class)
                 || l.getStatementClass().equals(StatementRead.class)
                 || l.getStatementClass().equals(StatementReadArray.class)) {
-            Iterator<Label> iterator = labels.iterator();
+            Iterator<LabelLine> iterator = labels.iterator();
             while(iterator.hasNext()) {
                 LabelLine checkLabel = (LabelLine) iterator.next();
                 if(checkLabel.getSymbol().equals(l.getSymbol())) {
@@ -341,6 +299,9 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
                 }
             }
         }
+
+        // put the extreme function as well
+        killSet.add(extremeValuesList.get(l.getSymbol()));
 
         killFunction.put(l, killSet);
     }

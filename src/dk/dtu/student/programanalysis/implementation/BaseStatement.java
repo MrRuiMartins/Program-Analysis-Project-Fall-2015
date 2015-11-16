@@ -4,6 +4,8 @@ import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import dk.dtu.student.programanalysis.implementation.label.LabelLine;
 import dk.dtu.student.programanalysis.implementation.set.IntervalSet;
 import org.antlr.runtime.CommonToken;
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.Graph;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
@@ -50,7 +52,7 @@ public abstract class BaseStatement extends BaseMutableTreeNode {
         return finals;
     }
 
-    public UndirectedGraph<Label,DefaultEdge> produceFlows(UndirectedGraph<Label,DefaultEdge> graph) {
+    public DirectedGraph<Label,DefaultEdge> produceFlows(DirectedGraph<Label,DefaultEdge> graph) {
         if(isSequence()) {
             System.out.println("Adding flow from " + S1.getL().toString() + " to " + S2.getL().toString());
 

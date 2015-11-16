@@ -5,6 +5,8 @@ import dk.dtu.student.programanalysis.implementation.BaseStatement;
 import dk.dtu.student.programanalysis.implementation.Label;
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.Graph;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
@@ -45,8 +47,8 @@ public class StatementIf extends BaseStatement {
     }
 
     @Override
-    public UndirectedGraph<Label, DefaultEdge> produceFlows(UndirectedGraph<Label, DefaultEdge> graph) {
-        super.produceFlows(graph);
+    public DirectedGraph<Label, DefaultEdge> produceFlows(DirectedGraph<Label, DefaultEdge> graph) {
+        super.isSequence();
         BaseStatement endingStatement = super.getS2();
 
         //FLOW to S1

@@ -6,6 +6,8 @@ import dk.dtu.student.programanalysis.implementation.BaseStatement;
 import dk.dtu.student.programanalysis.implementation.Label;
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.Graph;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
@@ -34,7 +36,7 @@ public class StatementWhile extends BaseStatement {
     }
 
     @Override
-    public UndirectedGraph<Label, DefaultEdge> produceFlows(UndirectedGraph<Label, DefaultEdge> graph) {
+    public DirectedGraph<Label, DefaultEdge> produceFlows(DirectedGraph<Label, DefaultEdge> graph) {
         graph = super.produceFlows(graph);
 
         graph.addVertex(getL());
