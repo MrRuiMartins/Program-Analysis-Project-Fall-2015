@@ -2,6 +2,8 @@ package dk.dtu.student.programanalysis.implementation.analysis;
 
 import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
 import dk.dtu.student.programanalysis.implementation.Label;
+import dk.dtu.student.programanalysis.implementation.declaration.DeclarationArrayInteger;
+import dk.dtu.student.programanalysis.implementation.declaration.DeclarationInteger;
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import dk.dtu.student.programanalysis.implementation.label.LabelLine;
 import dk.dtu.student.programanalysis.implementation.statement.*;
@@ -117,6 +119,26 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     public void parse(StatementWrite node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
+        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
+
+        node.setL(label);
+    }
+
+    @Override
+    public void parse(DeclarationInteger node, ParserRuleContext context) {
+        // Get Symbol for line
+        TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
+        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
+
+        node.setL(label);
+    }
+
+    @Override
+    public void parse(DeclarationArrayInteger node, ParserRuleContext context) {
+        // Get Symbol for line
+        TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
         Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
@@ -274,6 +296,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
         if(l.getStatementClass().equals(StatementAssign.class)
                 || l.getStatementClass().equals(StatementAssignArray.class)
                 || l.getStatementClass().equals(StatementRead.class)
+                || l.getStatementClass().equals(DeclarationInteger.class)
                 || l.getStatementClass().equals(StatementReadArray.class)) {
             killSet.add(l);
         }

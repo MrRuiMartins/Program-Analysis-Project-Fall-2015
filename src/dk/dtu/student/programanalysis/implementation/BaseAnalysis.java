@@ -1,5 +1,7 @@
 package dk.dtu.student.programanalysis.implementation;
 
+import dk.dtu.student.programanalysis.implementation.declaration.DeclarationArrayInteger;
+import dk.dtu.student.programanalysis.implementation.declaration.DeclarationInteger;
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
 import dk.dtu.student.programanalysis.implementation.statement.*;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -45,6 +47,12 @@ public abstract class BaseAnalysis {
         }
         else if(nodeClass == StatementWhile.class) {
             parse((StatementWhile)node, context);
+        }
+        else if(nodeClass == DeclarationInteger.class) {
+            parse((DeclarationInteger)node, context);
+        }
+        else if(nodeClass == DeclarationArrayInteger.class) {
+            parse((DeclarationArrayInteger)node, context);
         }
     }
 
@@ -105,6 +113,9 @@ public abstract class BaseAnalysis {
     }
 
     public abstract void parse(StatementWrite node, ParserRuleContext context);
+    public abstract void parse(DeclarationInteger node, ParserRuleContext context);
+
+    public abstract void parse(DeclarationArrayInteger node, ParserRuleContext context);
 
     private void produceInfl(FlowGraph graph) {
         infl = new HashMap<>();
