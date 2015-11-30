@@ -10,4 +10,8 @@ import java.util.Set;
  */
 public abstract class BaseMutableTreeNode extends DefaultMutableTreeNode {
 
+    public void parseTreeNode() {
+
+    }
+
 }

@@ -1,5 +1,6 @@
 import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
 import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
+import dk.dtu.student.programanalysis.implementation.GeneralAnalysis;
 import dk.dtu.student.programanalysis.implementation.RootTreeNode;
 import org.antlr.v4.runtime.ParserRuleContext;
 
@@ -17,7 +18,7 @@ public class ProgramAnalysisListener extends TheLangBaseListener {
 
     private RuleContextFactory ruleContextFactory;
 
-    public ProgramAnalysisListener(BaseAnalysis analysis) {
+    public ProgramAnalysisListener(GeneralAnalysis analysis) {
         ruleContextFactory = new RuleContextFactory(analysis);
     }
 

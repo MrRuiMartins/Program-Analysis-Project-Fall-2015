@@ -90,7 +90,9 @@ opr : GT
     | NEQ
     ;
 
-decl : level? INT IDENTIFIER (LBRACKET INTEGER RBRACKET)? SEMI ;
+declArray : level? INT IDENTIFIER LBRACKET aexpr RBRACKET SEMI ;
+
+decl : level? INT IDENTIFIER SEMI ;
 
 level : LOW | HIGH ;
 
@@ -120,7 +122,7 @@ ifStmt : IF bexpr THEN stmt+ ELSE stmt+ FI ;
 
 whileStmt : WHILE bexpr DO stmt+ OD ;
 
-program : PROGRAM decl* stmt+ END ;
+program : PROGRAM (decl | declArray)* stmt+ END ;
 
 
 COMMENT : '(*' .*? '*)' -> skip;

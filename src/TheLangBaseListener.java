@@ -111,6 +111,18 @@ public class TheLangBaseListener implements TheLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDeclArray(TheLangParser.DeclArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDeclArray(TheLangParser.DeclArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDecl(TheLangParser.DeclContext ctx) { }
 	/**
 	 * {@inheritDoc}

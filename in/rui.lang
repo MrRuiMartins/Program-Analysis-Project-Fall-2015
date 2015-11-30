@@ -1,0 +1,9 @@
+program
+int a;
+if (a < 15) then
+a := 4+2;
+else
+a := 3;
+fi
+read a;
+end

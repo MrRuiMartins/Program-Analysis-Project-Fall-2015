@@ -1,4 +1,7 @@
 import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
+import dk.dtu.student.programanalysis.implementation.GeneralAnalysis;
+import dk.dtu.student.programanalysis.implementation.analysis.AnalysisDetectionSigns;
+import dk.dtu.student.programanalysis.implementation.analysis.AnalysisLiveVariables;
 import dk.dtu.student.programanalysis.implementation.analysis.AnalysisReachingDefinition;
 
 import java.util.HashMap;
@@ -8,17 +11,22 @@ import java.util.HashMap;
  */
 public class AnalysisFactory {
 
-    private HashMap<String, BaseAnalysis> analysises;
+    private HashMap<String, GeneralAnalysis> analyses;
 
     public AnalysisFactory() {
-        analysises = new HashMap<>();
+        analyses = new HashMap<>();
 
-        AnalysisReachingDefinition rd = new AnalysisReachingDefinition();
+        //AnalysisReachingDefinition rd = new AnalysisReachingDefinition();
+        //AnalysisLiveVariables lv = new AnalysisLiveVariables();
+        AnalysisDetectionSigns ds = new AnalysisDetectionSigns();
 
-        analysises.put(rd.getName(), rd);
+       // analyses.put(rd.getName(), rd);
+        //analyses.put(lv.getName(), lv);
+        analyses.put(ds.getName(), ds);
+
     }
 
-    public BaseAnalysis getInstance(String name) {
-        return analysises.get(name);
+    public GeneralAnalysis getInstance(String name) {
+        return analyses.get(name);
     }
 }

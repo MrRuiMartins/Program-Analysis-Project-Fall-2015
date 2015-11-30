@@ -87,6 +87,16 @@ public interface TheLangListener extends ParseTreeListener {
 	 */
 	void exitOpr(TheLangParser.OprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TheLangParser#declArray}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclArray(TheLangParser.DeclArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TheLangParser#declArray}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclArray(TheLangParser.DeclArrayContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link TheLangParser#decl}.
 	 * @param ctx the parse tree
 	 */

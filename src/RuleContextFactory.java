@@ -1,4 +1,5 @@
 import dk.dtu.student.programanalysis.implementation.*;
+import dk.dtu.student.programanalysis.implementation.declaration.DeclarationArrayInteger;
 import dk.dtu.student.programanalysis.implementation.declaration.DeclarationInteger;
 import dk.dtu.student.programanalysis.implementation.statement.*;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -8,9 +9,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
  */
 public class RuleContextFactory {
 
-    private BaseAnalysis analysis;
+    private GeneralAnalysis analysis;
 
-    public RuleContextFactory(BaseAnalysis analysis) {
+    public RuleContextFactory(GeneralAnalysis analysis) {
         this.analysis = analysis;
     }
 
@@ -22,6 +23,9 @@ public class RuleContextFactory {
         }
         else if (nodeClass == TheLangParser.DeclContext.class) {
             retval = new DeclarationInteger();
+        }
+        else if (nodeClass == TheLangParser.DeclArrayContext.class) {
+            retval = new DeclarationArrayInteger();
         }
         else if (nodeClass == TheLangParser.AssignStmtContext.class) {
             retval = new StatementAssign();
