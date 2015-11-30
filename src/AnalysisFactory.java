@@ -11,22 +11,22 @@ import java.util.HashMap;
  */
 public class AnalysisFactory {
 
-    private HashMap<String, GeneralAnalysis> analyses;
+    private HashMap<String, BaseAnalysis> analyses;
 
     public AnalysisFactory() {
         analyses = new HashMap<>();
 
-        //AnalysisReachingDefinition rd = new AnalysisReachingDefinition();
-        //AnalysisLiveVariables lv = new AnalysisLiveVariables();
-        AnalysisDetectionSigns ds = new AnalysisDetectionSigns();
+        AnalysisReachingDefinition rd = new AnalysisReachingDefinition();
+        AnalysisLiveVariables lv = new AnalysisLiveVariables();
+//        AnalysisDetectionSigns ds = new AnalysisDetectionSigns();
 
-       // analyses.put(rd.getName(), rd);
-        //analyses.put(lv.getName(), lv);
-        analyses.put(ds.getName(), ds);
+        analyses.put(rd.getName(), rd);
+        analyses.put(lv.getName(), lv);
+//        analyses.put(ds.getName(), ds);
 
     }
 
-    public GeneralAnalysis getInstance(String name) {
+    public BaseAnalysis getInstance(String name) {
         return analyses.get(name);
     }
 }

@@ -32,7 +32,7 @@ public class NotMain {
         TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[1]));
         CommonTokenStream tokens = new CommonTokenStream(lex);
         TheLangParser parser = new TheLangParser(tokens);
-        ProgramAnalysisListener listener = new ProgramAnalysisListener(analysis);
+        ProgramGeneralAnalysisListener listener = new ProgramGeneralAnalysisListener(analysis);
         parser.addParseListener(listener);
 
         try {

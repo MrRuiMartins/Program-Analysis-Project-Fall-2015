@@ -17,8 +17,8 @@ import java.util.*;
 /**
  * Created by dx on 11/12/15.
  */
-public abstract class AnalysisReachingDefinition extends BaseAnalysis {
-/*
+public class AnalysisReachingDefinition extends BaseAnalysis {
+
     Map<LabelLine, Set<LabelLine>> RDEnter;
     Map<LabelLine, Set<LabelLine>> RDLeave;
 
@@ -328,5 +328,5 @@ public abstract class AnalysisReachingDefinition extends BaseAnalysis {
 
         killFunction.put(l, killSet);
     }
-    */
+
 }

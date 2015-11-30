@@ -1,4 +1,3 @@
-import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
 import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
 import dk.dtu.student.programanalysis.implementation.GeneralAnalysis;
 import dk.dtu.student.programanalysis.implementation.RootTreeNode;
@@ -10,16 +9,16 @@ import java.util.Stack;
 /**
  * Created by dx on 11/9/15.
  */
-public class ProgramAnalysisListener extends TheLangBaseListener {
+public class ProgramGeneralAnalysisListener extends TheLangBaseListener {
 
     Stack<BaseMutableTreeNode> parentNodes = new Stack<>();
 
     private BaseMutableTreeNode rootTree;
 
-    private RuleContextFactory ruleContextFactory;
+    private RuleContextGeneralFactory ruleContextFactory;
 
-    public ProgramAnalysisListener(BaseAnalysis analysis) {
-        ruleContextFactory = new RuleContextFactory(analysis);
+    public ProgramGeneralAnalysisListener(GeneralAnalysis analysis) {
+        ruleContextFactory = new RuleContextGeneralFactory(analysis);
     }
 
     @Override

@@ -7,11 +7,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 /**
  * Created by dx on 11/9/15.
  */
-public class RuleContextFactory {
+public class RuleContextGeneralFactory {
 
-    private BaseAnalysis analysis;
+    private GeneralAnalysis analysis;
 
-    public RuleContextFactory(BaseAnalysis analysis) {
+    public RuleContextGeneralFactory(GeneralAnalysis analysis) {
         this.analysis = analysis;
     }
 

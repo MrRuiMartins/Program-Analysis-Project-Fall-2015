@@ -13,11 +13,11 @@ import org.jgrapht.graph.SimpleGraph;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Enumeration;
 
-public class MainOld {
+public class Main {
 
     private static UndirectedGraph<String, BaseStatement> cfg =
             new SimpleGraph<String, BaseStatement>(BaseStatement.class);
-/*
+
     public static void main(String[] args) throws Exception {
         // Check number of input
         if(args.length < 2) {
@@ -82,5 +82,5 @@ public class MainOld {
         }
 
     }
-    */
+
 }
