@@ -1,5 +1,6 @@
 package dk.dtu.student.programanalysis.implementation.statement;
 
+import dk.dtu.student.programanalysis.implementation.ArithmeticExpression;
 import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
 import dk.dtu.student.programanalysis.implementation.BaseStatement;
 import dk.dtu.student.programanalysis.implementation.Label;
@@ -15,4 +16,17 @@ import java.util.Set;
  */
 public class StatementAssign extends BaseStatement {
 
+    private ArithmeticExpression expression;
+
+    @Override
+    public void parseTreeNode() {
+        ParserRuleContext context = (ParserRuleContext) this.userObject;
+        expression = (ArithmeticExpression) getChildAt(0);
+        expression.setUserObject(context.getChild(2));
+        expression.parseTreeNode();
+    }
+
+    public ArithmeticExpression getExpression() {
+        return expression;
+    }
 }

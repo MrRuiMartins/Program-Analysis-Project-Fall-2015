@@ -1,58 +1,32 @@
 package dk.dtu.student.programanalysis.implementation.analysis;
 
+import dk.dtu.student.programanalysis.implementation.IAnalysisType;
 import dk.dtu.student.programanalysis.implementation.ArithmeticExpression;
 import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
-import dk.dtu.student.programanalysis.implementation.GeneralAnalysis;
 import dk.dtu.student.programanalysis.implementation.Label;
+import dk.dtu.student.programanalysis.implementation.analysistype.DetectionSignsAnalysisType;
 import dk.dtu.student.programanalysis.implementation.declaration.DeclarationArrayInteger;
 import dk.dtu.student.programanalysis.implementation.declaration.DeclarationInteger;
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
-import dk.dtu.student.programanalysis.implementation.label.LabelDS;
-import dk.dtu.student.programanalysis.implementation.set.Signs;
+import dk.dtu.student.programanalysis.implementation.set.SignSet;
 import dk.dtu.student.programanalysis.implementation.statement.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptEngine;
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
 
-import javax.xml.soap.DetailEntry;
 import java.util.*;
 
 /**
  * Created by ruimartins on 23/11/2015.
  */
-public class AnalysisDetectionSigns extends GeneralAnalysis {
+public class AnalysisDetectionSigns extends BaseAnalysis {
 
-    DetectionSignsLattice iota;
-    DetectionSignsLattice zeroLattice;
-    DetectionSignsLattice negativeLattice;
-    DetectionSignsLattice positiveLattice;
-    DetectionSignsAnalysisType extremalValue;
+    Map<String, SignSet> extremeValuesList;
 
-    DetectionSignsAnalysisType bottom;
-    Map<LabelDS, DetectionSignsAnalysisType> DSEnter;
-    Map<LabelDS, DetectionSignsAnalysisType> DSLeave;
-
+    Map<Label, SignSet> DSEnter;
+    Map<Label, SignSet> DSLeave;
 
     public AnalysisDetectionSigns() {
-
-        zeroLattice = new DetectionSignsLattice();
-        zeroLattice.add(Signs.ZERO);
-
-        negativeLattice = new DetectionSignsLattice();
-        negativeLattice.add(Signs.NEGATIVE);
-
-        positiveLattice = new DetectionSignsLattice();
-        positiveLattice.add(Signs.POSITIVE);
-
-        iota = new DetectionSignsLattice();
-        iota.add(Signs.ZERO);
-        iota.add(Signs.POSITIVE);
-        iota.add(Signs.NEGATIVE);
-        extremalValue = new DetectionSignsAnalysisType();
-        bottom = new DetectionSignsAnalysisType();
+        extremeValuesList = new HashMap<>();
         DSLeave = new HashMap<>();
         DSEnter = new HashMap<>();
 
@@ -64,33 +38,24 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
     }
     @Override
     public void parse(StatementAssign node, ParserRuleContext context) {
-        ArithmeticExpression e = new ArithmeticExpression();
-        e.setUserObject(context.getChild(2));
-        e.parseTreeNode();
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
-                context.getStart().getLine(), e);
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
 
         node.setL(label);
+        node.parseTreeNode();
     }
 
     @Override
     public void parse(StatementAssignArray node, ParserRuleContext context) {
-
-        ArithmeticExpression e = new ArithmeticExpression();
-        e.setUserObject(context.getChild(2));
-        e.parseTreeNode();
-
-        ArithmeticExpression e2 = new ArithmeticExpression();
-        e2.setUserObject(context.getChild(5));
-        e2.parseTreeNode();
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
-                context.getStart().getLine(), e, e2);
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
 
         node.setL(label);
+        node.parseTreeNode();
     }
 
     @Override
@@ -99,7 +64,7 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
 
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -109,7 +74,7 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
     public void parse(StatementRead node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -117,23 +82,20 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
 
     @Override
     public void parse(StatementReadArray node, ParserRuleContext context) {
-        ArithmeticExpression e = new ArithmeticExpression();
-        e.setUserObject(context.getChild(3));
-        e.parseTreeNode();
-
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
-                context.getStart().getLine(), e);
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
 
         node.setL(label);
+        node.parseTreeNode();
     }
 
     @Override
     public void parse(StatementSkip node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -145,7 +107,7 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
 
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -155,7 +117,17 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
     public void parse(StatementWrite node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
+
+        node.setL(label);
+    }
+
+    @Override
+    public void parse(StatementWriteArray node, ParserRuleContext context) {
+        // Get Symbol for line
+        TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -165,7 +137,7 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
     public void parse(DeclarationInteger node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -173,135 +145,99 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
 
     @Override
     public void parse(DeclarationArrayInteger node, ParserRuleContext context) {
-        // Initiating our ArithmeticExpression
-        ArithmeticExpression e = new ArithmeticExpression();
-        e.setUserObject(context.getChild(3));
-        e.parseTreeNode();
-
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
-        Label label = new LabelDS(node.getClass(), firstTerminal.getSymbol().getText(),
-                context.getStart().getLine(), e);
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
 
         node.setL(label);
+        node.parseTreeNode();
     }
 
     @Override
     public void doAnalysis(FlowGraph graph) {
-        assignBottomAndProduceExtremes(graph);
+        produceExtremes(graph);
         super.doAnalysis(graph);
         System.out.println();
     }
 
-    private void assignBottomAndProduceExtremes(FlowGraph graph) {
+    private void produceExtremes(FlowGraph graph) {
+        Set<Label> labels =  (Set<Label>) graph.getLabels();
 
-        Set<LabelDS> labels =  (Set<LabelDS>) graph.getLabels();
+        for(Label label : labels) {
+            SignSet iota = new SignSet();
+            iota.add(DetectionSignsAnalysisType.Signs.ZERO);
+            iota.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
+            iota.add(DetectionSignsAnalysisType.Signs.POSITIVE);
 
-        for(LabelDS label : labels) {
-            bottom.addValue(label.getSymbol(), new DetectionSignsLattice());
             //produce extremes.
-            extremalValue.addValue(label.getSymbol(), iota);
+            this.extremeValuesList.put(label.getSymbol(), iota);
         }
 
     }
 
+    @Override
+    protected Set<? extends IAnalysisType> getExtremeValue(Set<? extends Label> labels) {
+        SignSet extremeValues = new SignSet();
 
-    private void populateFunctions(FlowGraph graph) {
-
-        Set<LabelDS> labels = (Set<LabelDS>) graph.getLabels();
-        for(LabelDS l : labels) {
-            DetectionSignsLattice lat = calculateSignsOfLabel(l);
-        }
-
-
-    }
-
-    private DetectionSignsLattice calculateSignsOfLabel(LabelDS l) {
-
-        return new DetectionSignsLattice();
-    }
-
-    private void produceFunctions(FlowGraph graph, Label l) {
-
-
+        return extremeValues;
     }
 
     @Override
-    protected DetectionSignsAnalysisType getExtremeValue(Set<? extends Label> labels) {
-        return extremalValue;
-    }
-
-
-
-    @Override
-    protected  DetectionSignsAnalysisType getBottomValue() {
-        return bottom;
-
-    }
-
-    protected DetectionSignsLattice getZeroLattice() {
-        return zeroLattice;
+    protected Set<? extends IAnalysisType> getBottomValue() {
+        return new SignSet<>();
     }
 
     @Override
-    protected DetectionSignsAnalysisType analyseComponent(Label l) {
+    protected Set<? extends IAnalysisType> analyseComponent(Label l) {
 
         if(l.getStatementClass() == DeclarationInteger.class)
         {
-            String symbol = ((LabelDS) l).getSymbol();
-            DetectionSignsAnalysisType current = DSEnter.get(l);
-            current.addValue(symbol, getZeroLattice());
-            setAnalysisResult(l, current);
-            DSLeave.put((LabelDS) l, current);
-            return current;
+            SignSet current = DSEnter.get(l);
 
+            current.add(DetectionSignsAnalysisType.Signs.ZERO);
+            setAnalysisResult(l, current);
+            DSLeave.put(l, current);
+            return current;
         }
         if(l.getStatementClass() == DeclarationArrayInteger.class)
         {
-            String symbol = ((LabelDS) l).getSymbol();
-            DetectionSignsAnalysisType current = DSEnter.get(l);
+            SignSet current = DSEnter.get(l);
 
-
-            if(ExpressionGreaterThanZero(((LabelDS) l).getExpression())) {
-                current.addValue(symbol, getZeroLattice());
-                setAnalysisResult(l, current);
-                DSLeave.put((LabelDS) l, current);
-                return current;
-            }
-            else
-            {
-                throw new IllegalArgumentException("Array declarations can not start with non-positive numbers.");
-            }
+            current.add(DetectionSignsAnalysisType.Signs.ZERO);
+            setAnalysisResult(l, current);
+            DSLeave.put(l, current);
+            return current;
         }
         if(l.getStatementClass() == StatementAssign.class)
         {
-            String symbol = ((LabelDS) l).getSymbol();
-            DetectionSignsAnalysisType current = DSEnter.get(l);
+            String symbol = l.getSymbol();
+            SignSet current = new SignSet();
 
-            current.addValue(symbol, calculateLatticeFromExpression(((LabelDS) l).getExpression()));
+            StatementAssign node = (StatementAssign)l.getNode();
+            ArithmeticExpression expression = node.getExpression();
+
+            current.addAll(calculateLatticeFromExpression(expression));
             setAnalysisResult(l, current);
-            DSLeave.put((LabelDS) l, current);
+            DSLeave.put(l, current);
             return current;
 
         }
 
         if(l.getStatementClass() == StatementAssignArray.class)
         {
-            String symbol = ((LabelDS) l).getSymbol();
-            DetectionSignsAnalysisType current = DSEnter.get(l);
+            SignSet current = DSEnter.get(l);
 
-            if(ExpressionGreaterThanZero(((LabelDS) l).getExpression())) {
+            StatementAssignArray node = (StatementAssignArray)l.getNode();
+            ArithmeticExpression expression = node.getExpression();
 
-                DetectionSignsLattice newLattice = current.unionValue(symbol, calculateLatticeFromExpression(((LabelDS) l).getExpression2()));
-                DetectionSignsAnalysisType newAnalysis = new DetectionSignsAnalysisType();
+            if(ExpressionGreaterThanZero(expression)) {
 
-                for (Map.Entry<String, DetectionSignsLattice> entry : current.GetValue().entrySet()) {
-                    newAnalysis.addValue(entry.getKey(), entry.getValue());
-                }
-                newAnalysis.addValue(symbol, newLattice);
-                setAnalysisResult(l, newAnalysis);
-                DSLeave.put((LabelDS) l, newAnalysis);
-                return newAnalysis;
+                current.addAll(calculateLatticeFromExpression(expression));
+
+                setAnalysisResult(l, current);
+                DSLeave.put(l, current);
+                return current;
             }
             else
             {
@@ -312,13 +248,17 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
 
         if(l.getStatementClass() == StatementReadArray.class)
         {
-            String symbol = ((LabelDS) l).getSymbol();
-            DetectionSignsAnalysisType current = DSEnter.get(l);
+            SignSet current = DSEnter.get(l);
 
-            if(ExpressionGreaterThanOrEqualToZero(((LabelDS) l).getExpression())) {
-                current.addValue(symbol, iota);
+            StatementReadArray node = (StatementReadArray)l.getNode();
+            ArithmeticExpression expression = node.getExpression();
+
+            if(ExpressionGreaterThanOrEqualToZero(expression)) {
+                current.add(DetectionSignsAnalysisType.Signs.ZERO);
+                current.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
+                current.add(DetectionSignsAnalysisType.Signs.POSITIVE);
                 setAnalysisResult(l, current);
-                DSLeave.put((LabelDS) l, current);
+                DSLeave.put(l, current);
                 return current;
             }
             else
@@ -328,129 +268,137 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
         }
         if(l.getStatementClass() == StatementSkip.class)
         {
-            DetectionSignsAnalysisType current = DSEnter.get(l);
+            SignSet current = DSEnter.get(l);
             setAnalysisResult(l, current);
-            DSLeave.put((LabelDS) l, current);
+            DSLeave.put(l, current);
             return current;
 
         }
         if(l.getStatementClass() == StatementWhile.class)
         {
-            DetectionSignsAnalysisType current = DSEnter.get(l);
+            SignSet current = DSEnter.get(l);
             setAnalysisResult(l, current);
-            DSLeave.put((LabelDS) l, current);
+            DSLeave.put(l, current);
             return current;
 
         }
         if(l.getStatementClass() == StatementWrite.class)
         {
-            DetectionSignsAnalysisType current = DSEnter.get(l);
+            SignSet current = DSEnter.get(l);
             setAnalysisResult(l, current);
-            DSLeave.put((LabelDS) l, current);
+            DSLeave.put(l, current);
             return current;
 
         }
         if(l.getStatementClass() == StatementRead.class)
         {
-            String symbol = ((LabelDS) l).getSymbol();
-            DetectionSignsAnalysisType current = DSEnter.get(l);
-            current.addValue(symbol, iota);
+            String symbol = l.getSymbol();
+            SignSet current = DSEnter.get(l);
+
+            SignSet iota = new SignSet();
+            iota.add(DetectionSignsAnalysisType.Signs.ZERO);
+            iota.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
+            iota.add(DetectionSignsAnalysisType.Signs.POSITIVE);
+
+            current.addAll(iota);
             setAnalysisResult(l, current);
-            DSLeave.put((LabelDS) l, current);
+            DSLeave.put(l, current);
             return current;
         }
 
-        return new DetectionSignsAnalysisType();
+        return new SignSet<>();
     }
 
-    private DetectionSignsLattice calculateLatticeFromExpression(ArithmeticExpression expression) {
-        DetectionSignsLattice result = new DetectionSignsLattice();
+    private Set<DetectionSignsAnalysisType.Signs> calculateLatticeFromExpression(ArithmeticExpression expression) {
+        Set<DetectionSignsAnalysisType.Signs> result = new HashSet<>();
 
         if(expression.getOperand() != null ) {
             switch (expression.getOperand()) {
                 case ADDITION:
                     if(expression.getLeftValue() > 0 && expression.getRightValue() < 0) {
-                        result.add(Signs.POSITIVE);
-                        result.add(Signs.NEGATIVE);
-                        result.add(Signs.ZERO);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.ZERO);
                     }
                     else if(expression.getLeftValue() < 0 && expression.getRightValue() > 0) {
-                        result.add(Signs.POSITIVE);
-                        result.add(Signs.NEGATIVE);
-                        result.add(Signs.ZERO);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.ZERO);
                     }
                     else if(expression.getLeftValue() == 0 && expression.getRightValue() == 0) {
-                        result.add(Signs.ZERO);
+                        result.add(DetectionSignsAnalysisType.Signs.ZERO);
                     }
                     else if(expression.getLeftValue() < 0 || expression.getRightValue() < 0) {
-                        result.add(Signs.NEGATIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
                     }
                     else {
-                        result.add(Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
                     }
 
                     break;
                 case SUBTRACTION:
                     if(expression.getLeftValue() < 0 && expression.getRightValue() < 0) {
-                        result.add(Signs.POSITIVE);
-                        result.add(Signs.NEGATIVE);
-                        result.add(Signs.ZERO);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.ZERO);
                     }
                     else if(expression.getLeftValue() > 0 && expression.getRightValue() > 0) {
-                        result.add(Signs.POSITIVE);
-                        result.add(Signs.NEGATIVE);
-                        result.add(Signs.ZERO);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.ZERO);
                     }
                     else if(expression.getLeftValue() == 0 && expression.getRightValue() == 0) {
-                        result.add(Signs.ZERO);
+                        result.add(DetectionSignsAnalysisType.Signs.ZERO);
                     }
                     else if(expression.getLeftValue() > 0 || expression.getRightValue() < 0) {
-                        result.add(Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
                     }
                     else {
-                        result.add(Signs.NEGATIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
                     }
                     break;
                 case MULTIPLICATION:
                     if(expression.getLeftValue() == 0 || expression.getRightValue() == 0) {
-                        result.add(Signs.ZERO);
+                        result.add(DetectionSignsAnalysisType.Signs.ZERO);
                     }
                     else if(expression.getLeftValue() > 0 && expression.getRightValue() > 0) {
-                        result.add(Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
                     }
                     else if(expression.getLeftValue() < 0 && expression.getRightValue() < 0) {
-                        result.add(Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
                     }
-                    else result.add(Signs.NEGATIVE);
+                    else result.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
                     break;
                 case DIVISION:
                     if(expression.getRightValue() == 0) {
                         throw new IllegalArgumentException("Division by zero.");
                     }
                     else if(expression.getLeftValue() == 0 ) {
-                        result.add(Signs.ZERO);
+                        result.add(DetectionSignsAnalysisType.Signs.ZERO);
                     }
                     else if(expression.getLeftValue() < 0 && expression.getRightValue() < 0) {
-                        result.add(Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
                     }
                     else if(expression.getLeftValue() > 0 && expression.getRightValue() > 0) {
-                        result.add(Signs.POSITIVE);
+                        result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
                     }
-                    else result.add(Signs.NEGATIVE);
+                    else result.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
                     break;
             }
             return result;
         }
         else {
-            if(expression.getLeftValue() >0 ) {
-                return positiveLattice;
+            result.clear();
+            if(expression.getLeftValue() > 0 ) {
+                result.add(DetectionSignsAnalysisType.Signs.POSITIVE);
             }
             else if(expression.getLeftValue() < 0) {
-                return negativeLattice;
+                result.add(DetectionSignsAnalysisType.Signs.NEGATIVE);
             }
             else{
-                return zeroLattice;
+                result.add(DetectionSignsAnalysisType.Signs.ZERO);
             }
+            return result;
         }
     }
     private boolean ExpressionGreaterThanOrEqualToZero(ArithmeticExpression expression) {
@@ -505,14 +453,14 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
     }
 
     @Override
-    protected DetectionSignsAnalysisType getAnalysisResult(Label l) {
-        return DSEnter.get((LabelDS)l);
+    protected Set<DetectionSignsAnalysisType> getAnalysisResult(Label l) {
+        return DSEnter.get(l);
     }
 
 
     @Override
-    protected void setAnalysisResult(Label l, AnalysisType newSet) {
-        DSEnter.put((LabelDS)l, (DetectionSignsAnalysisType) newSet);
+    protected void setAnalysisResult(Label l, Set<? extends IAnalysisType> newSet) {
+        DSEnter.put(l, (SignSet) newSet);
     }
 
     @Override
@@ -522,15 +470,14 @@ public class AnalysisDetectionSigns extends GeneralAnalysis {
         Iterator it = this.DSLeave.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            LabelDS key = (LabelDS) pair.getKey();
-            DetectionSignsAnalysisType response = (DetectionSignsAnalysisType) pair.getValue();
+            Label key = (Label) pair.getKey();
+            SignSet<DetectionSignsAnalysisType.Signs> response =
+                    (SignSet<DetectionSignsAnalysisType.Signs>) pair.getValue();
             result += "DS after leaving line: " + key.getLineNumber() + "\n";
-            for (Map.Entry<String, DetectionSignsLattice> entry : response.GetValue().entrySet())
+            result += key.getSymbol() + " could be: \n";
+            for (DetectionSignsAnalysisType.Signs entry : response)
             {
-                result += entry.getKey() + "\n";
-                for(Signs s : entry.getValue().getSigns()) {
-                        result += "/" + s.name() + "\n";
-                }
+                result += "> " + entry + "\n";
             }
         }
         return result;

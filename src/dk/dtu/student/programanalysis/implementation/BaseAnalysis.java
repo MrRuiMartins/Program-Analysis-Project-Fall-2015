@@ -17,7 +17,27 @@ import java.util.*;
  */
 public abstract class BaseAnalysis {
 
+    private int iteration = 0;
+
+    public int getNumberOfIteration() {
+        return iteration;
+    }
+
+    public enum WorklistAlgorithm {
+        FIFO, LIFO;
+    }
+
+    private WorklistAlgorithm worklistAlgorithm = WorklistAlgorithm.FIFO;
+
     protected Map<Label, Set<? extends Label>> infl;
+
+    public WorklistAlgorithm getWorklistAlgorithm() {
+        return worklistAlgorithm;
+    }
+
+    public void setWorklistAlgorithm(WorklistAlgorithm worklistAlgorithm) {
+        this.worklistAlgorithm = worklistAlgorithm;
+    }
 
     public abstract String getName();
 
@@ -44,6 +64,9 @@ public abstract class BaseAnalysis {
         }
         else if(nodeClass == StatementWrite.class) {
             parse((StatementWrite)node, context);
+        }
+        else if(nodeClass == StatementWriteArray.class) {
+            parse((StatementWriteArray)node, context);
         }
         else if(nodeClass == StatementWhile.class) {
             parse((StatementWhile)node, context);
@@ -113,6 +136,9 @@ public abstract class BaseAnalysis {
     }
 
     public abstract void parse(StatementWrite node, ParserRuleContext context);
+
+    public abstract void parse(StatementWriteArray node, ParserRuleContext context);
+
     public abstract void parse(DeclarationInteger node, ParserRuleContext context);
 
     public abstract void parse(DeclarationArrayInteger node, ParserRuleContext context);
@@ -197,19 +223,20 @@ public abstract class BaseAnalysis {
 
         // for all l in F or E do
         while(W.size() > 0) {
+            iteration++;
             // (l,l') := head(W); W := tail(W);
             DefaultEdge checkEdge = W.pop();
             Label l = flows.getEdgeSource(checkEdge);
             Label lprime = flows.getEdgeTarget(checkEdge);
             // if f(Analysis[l]) !<= Analysis[l']
-            Set<Label> anal = (Set<Label>) analyseComponent(l);
+            Set<IAnalysisType> anal = (Set<IAnalysisType>) analyseComponent(l);
             if(graph.getFinals().contains(lprime)) {
                 analyseComponent(lprime);
             }
-            Set<Label> fAnal = (Set<Label>) getAnalysisResult(lprime);
+            Set<IAnalysisType> fAnal = (Set<IAnalysisType>) getAnalysisResult(lprime);
             if(!fAnal.containsAll(anal)) {
                 // then Analysis[l'] := Analysis[l'] union f(Analysis[l]);
-                Set<Label> unionResult = (Set<Label>) getAnalysisResult(lprime);
+                Set<IAnalysisType> unionResult = (Set<IAnalysisType>) getAnalysisResult(lprime);
                 unionResult.addAll(analyseComponent(l));
                 setAnalysisResult(lprime, unionResult);
                 // for all l'' with (l' , l'') in F do W := cons((l' , l''),W);
@@ -260,22 +287,27 @@ public abstract class BaseAnalysis {
             Set<DefaultEdge> edgeSources = flows.edgesOf(c);
             for(DefaultEdge edgeSource : edgeSources) {
                 if(flows.getEdgeSource(edgeSource).equals(c)) {
-                    W.push(edgeSource);
+                    if(worklistAlgorithm == WorklistAlgorithm.LIFO) {
+                        W.push(edgeSource);
+                    }
+                    else {
+                        W.add(edgeSource);
+                    }
                 }
             }
         }
         return W;
     }
 
-    protected abstract Set<? extends Label> getExtremeValue(Set<? extends Label> labels);
+    protected abstract Set<? extends IAnalysisType> getExtremeValue(Set<? extends Label> labels);
 
-    protected abstract Set<? extends Label> getBottomValue();
+    protected abstract Set<? extends IAnalysisType> getBottomValue();
 
-    protected abstract Set<? extends Label> analyseComponent(Label l);
+    protected abstract Set<? extends IAnalysisType> analyseComponent(Label l);
 
-    protected abstract Set<? extends Label> getAnalysisResult(Label l);
+    protected abstract Set<? extends IAnalysisType> getAnalysisResult(Label l);
 
-    protected abstract void setAnalysisResult(Label l, Set<? extends Label> newSet);
+    protected abstract void setAnalysisResult(Label l, Set<? extends IAnalysisType> newSet);
 
     public abstract String printResult();
 }

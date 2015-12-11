@@ -1,11 +1,12 @@
 package dk.dtu.student.programanalysis.implementation.analysis;
 
+import dk.dtu.student.programanalysis.implementation.IAnalysisType;
 import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
 import dk.dtu.student.programanalysis.implementation.Label;
+import dk.dtu.student.programanalysis.implementation.analysistype.ReachingDefinitionAnalysisType;
 import dk.dtu.student.programanalysis.implementation.declaration.DeclarationArrayInteger;
 import dk.dtu.student.programanalysis.implementation.declaration.DeclarationInteger;
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
-import dk.dtu.student.programanalysis.implementation.label.LabelLine;
 import dk.dtu.student.programanalysis.implementation.statement.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
@@ -19,13 +20,14 @@ import java.util.*;
  */
 public class AnalysisReachingDefinition extends BaseAnalysis {
 
-    Map<LabelLine, Set<LabelLine>> RDEnter;
-    Map<LabelLine, Set<LabelLine>> RDLeave;
+    Map<Label, Set<ReachingDefinitionAnalysisType>> RDEnter;
+    Map<Label, Set<ReachingDefinitionAnalysisType>> RDLeave;
 
-    Map<LabelLine, Set<LabelLine>> killFunction;
-    Map<LabelLine, Set<LabelLine>> genFunction;
+    Map<Label, Set<ReachingDefinitionAnalysisType>> killFunction;
+    Map<Label, Set<ReachingDefinitionAnalysisType>> genFunction;
 
-    Map<String, LabelLine> extremeValuesList;
+    Map<String, ReachingDefinitionAnalysisType> extremeValuesList;
+    Map<Label, ReachingDefinitionAnalysisType> reachingDefinitionAnalysisTypes;
 
     public AnalysisReachingDefinition() {
         RDEnter = new HashMap<>();
@@ -34,6 +36,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
         genFunction = new HashMap<>();
 
         extremeValuesList = new HashMap<>();
+        reachingDefinitionAnalysisTypes = new HashMap<>();
     }
 
     @Override
@@ -45,7 +48,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     public void parse(StatementAssign node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -55,7 +58,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     public void parse(StatementAssignArray node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -67,7 +70,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
 
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -77,7 +80,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     public void parse(StatementRead node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -87,7 +90,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     public void parse(StatementReadArray node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -97,7 +100,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     public void parse(StatementSkip node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -109,7 +112,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
 
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -119,7 +122,17 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     public void parse(StatementWrite node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
+                context.getStart().getLine());
+
+        node.setL(label);
+    }
+
+    @Override
+    public void parse(StatementWriteArray node, ParserRuleContext context) {
+        // Get Symbol for line
+        TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(0);
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -129,7 +142,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     public void parse(DeclarationInteger node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -139,7 +152,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     public void parse(DeclarationArrayInteger node, ParserRuleContext context) {
         // Get Symbol for line
         TerminalNodeImpl firstTerminal = (TerminalNodeImpl) context.getChild(1);
-        Label label = new LabelLine(node.getClass(), firstTerminal.getSymbol().getText(),
+        Label label = new Label(node.getClass(), node, firstTerminal.getSymbol().getText(),
                 context.getStart().getLine());
 
         node.setL(label);
@@ -155,14 +168,13 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     }
 
     @Override
-    protected Set<? extends Label> getExtremeValue(Set<? extends Label> labels) {
-        Set<Label> extremeValues = new HashSet<>();
+    protected Set<? extends IAnalysisType> getExtremeValue(Set<? extends Label> labels) {
+        Set<ReachingDefinitionAnalysisType> extremeValues = new HashSet<>();
 
         for(Label label : labels) {
-            LabelLine ll = (LabelLine) label;
-            ll = extremeValuesList.get(ll.getSymbol());
-            if(ll != null) {
-                extremeValues.add(ll);
+            ReachingDefinitionAnalysisType at = extremeValuesList.get(label.getSymbol());
+            if(at != null) {
+                extremeValues.add(at);
             }
         }
 
@@ -170,7 +182,7 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     }
 
     @Override
-    protected Set<? extends Label> getBottomValue() {
+    protected Set<? extends IAnalysisType> getBottomValue() {
         return new HashSet<>();
     }
 
@@ -180,55 +192,57 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
         Iterator it = this.RDLeave.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            LabelLine key = (LabelLine) pair.getKey();
-            Set<LabelLine> labels = (Set<LabelLine>) pair.getValue();
+            Label key = (Label) pair.getKey();
+            Set<ReachingDefinitionAnalysisType> analysisTypes =
+                    (Set<ReachingDefinitionAnalysisType>) pair.getValue();
             result += "RD after leaving line: " + key.getLineNumber() + "\n";
-            for(LabelLine label : labels) {
-                result += label + "\n";
+            for(ReachingDefinitionAnalysisType analysisType : analysisTypes) {
+                result += analysisType + "\n";
             }
         }
         return result;
     }
 
     @Override
-    protected Set<? extends Label> analyseComponent(Label l) {
-        Set<LabelLine> result = new HashSet<>();
+    protected Set<? extends IAnalysisType> analyseComponent(Label l) {
+        Set<ReachingDefinitionAnalysisType> result = new HashSet<>();
         result.addAll(RDEnter.get(l));
+        if(killFunction.get(l) == null) {
+            System.out.print("test");
+        }
         result.removeAll(killFunction.get(l));
         result.addAll(genFunction.get(l));
 
-        RDLeave.put((LabelLine) l, result);
+        RDLeave.put(l, result);
 
         return result;
     }
 
     @Override
-    protected Set<? extends Label> getAnalysisResult(Label l) {
+    protected Set<? extends IAnalysisType> getAnalysisResult(Label l) {
         return RDEnter.get(l);
     }
 
     @Override
-    protected void setAnalysisResult(Label l, Set<? extends Label> newSet) {
-        RDEnter.put((LabelLine)l, (Set<LabelLine>) newSet);
+    protected void setAnalysisResult(Label l, Set<? extends IAnalysisType> newSet) {
+        RDEnter.put(l, (Set<ReachingDefinitionAnalysisType>) newSet);
     }
 
     private void produceExtremes(FlowGraph graph) {
-        Set<LabelLine> labels = (Set<LabelLine>) graph.getLabels();
+        Set<Label> labels = (Set<Label>) graph.getLabels();
 
         for(Label label : labels) {
-            LabelLine ll = (LabelLine) label;
-            ll = extremeValuesList.get(ll.getSymbol());
-            if(ll == null) {
-                ll = (LabelLine) label;
-                LabelLine newLabelLine = new LabelLine(ll.getStatementClass(),
-                        ll.getSymbol(), ll.getLineNumber());
-                newLabelLine.setLineNumber(LabelLine.LABELLINE_ANYWHERE);
-                if(!ll.getStatementClass().equals(StatementSkip.class)
-                        && !ll.getStatementClass().equals(StatementIf.class)
-                        && !ll.getStatementClass().equals(StatementWhile.class)
-                        && !ll.getStatementClass().equals(StatementWrite.class)
+            ReachingDefinitionAnalysisType at = extremeValuesList.get(label.getSymbol());
+            if(at == null) {
+                ReachingDefinitionAnalysisType newRDType = new ReachingDefinitionAnalysisType(
+                        label.getLineNumber(), label.getSymbol());
+                newRDType.setLineNumber(ReachingDefinitionAnalysisType.ANYWHERE);
+                if(!label.getStatementClass().equals(StatementSkip.class)
+                        && !label.getStatementClass().equals(StatementIf.class)
+                        && !label.getStatementClass().equals(StatementWhile.class)
+                        && !label.getStatementClass().equals(StatementWrite.class)
                         ) {
-                    extremeValuesList.put(newLabelLine.getSymbol(), newLabelLine);
+                    extremeValuesList.put(newRDType.getSymbol(), newRDType);
                 }
             }
         }
@@ -268,14 +282,14 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
     }
 
     private void produceFunctions(FlowGraph graph, DefaultEdge edge) {
-        DirectedGraph<LabelLine, DefaultEdge> flow = (DirectedGraph<LabelLine, DefaultEdge>) graph.getFlow();
+        DirectedGraph<Label, DefaultEdge> flow = (DirectedGraph<Label, DefaultEdge>) graph.getFlow();
 
         // Determine is last
         Label lpp = flow.getEdgeTarget(edge);
         Set<Label> finals = graph.getFinals();
         boolean isLast = finals.contains(lpp);
 
-        LabelLine l;
+        Label l;
         if(!isLast) {
             l = flow.getEdgeSource(edge);
         }
@@ -284,28 +298,32 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
         }
 
         // Generate Kill functions
-        generateKill(l, (Set<LabelLine>) graph.getLabels());
+        generateKill(l, (Set<Label>) graph.getLabels());
 
         // Generate Gen functions
-        generateGen(l, (Set<LabelLine>) graph.getLabels());
+        generateGen(l);
     }
 
-    private void generateGen(LabelLine l, Set<LabelLine> labels) {
-        Set<LabelLine> killSet = new HashSet<>();
+    private void generateGen(Label l) {
+        Set<ReachingDefinitionAnalysisType> genSet = new HashSet<>();
 
         if(l.getStatementClass().equals(StatementAssign.class)
                 || l.getStatementClass().equals(StatementAssignArray.class)
                 || l.getStatementClass().equals(StatementRead.class)
                 || l.getStatementClass().equals(DeclarationInteger.class)
+                || l.getStatementClass().equals(DeclarationArrayInteger.class)
                 || l.getStatementClass().equals(StatementReadArray.class)) {
-            killSet.add(l);
+            ReachingDefinitionAnalysisType rdAt = new ReachingDefinitionAnalysisType(
+                    l.getLineNumber(), l.getSymbol());
+            reachingDefinitionAnalysisTypes.put(l, rdAt);
+            genSet.add(rdAt);
         }
 
-        genFunction.put(l, killSet);
+        genFunction.put(l, genSet);
     }
 
-    private void generateKill(LabelLine l, Set<LabelLine> labels) {
-        Set<LabelLine> killSet = new HashSet<>();
+    private void generateKill(Label l, Set<Label> labels) {
+        Set<ReachingDefinitionAnalysisType> killSet = new HashSet<>();
 
         // Add all related to the symbol. This is same for
         // normal assignment and array assignment also same
@@ -314,11 +332,11 @@ public class AnalysisReachingDefinition extends BaseAnalysis {
                 || l.getStatementClass().equals(StatementAssignArray.class)
                 || l.getStatementClass().equals(StatementRead.class)
                 || l.getStatementClass().equals(StatementReadArray.class)) {
-            Iterator<LabelLine> iterator = labels.iterator();
+            Iterator<Label> iterator = labels.iterator();
             while(iterator.hasNext()) {
-                LabelLine checkLabel = (LabelLine) iterator.next();
+                Label checkLabel = iterator.next();
                 if(checkLabel.getSymbol().equals(l.getSymbol())) {
-                    killSet.add(checkLabel);
+                    killSet.add(reachingDefinitionAnalysisTypes.get(checkLabel));
                 }
             }
         }

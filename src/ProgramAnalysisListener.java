@@ -1,6 +1,5 @@
 import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
 import dk.dtu.student.programanalysis.implementation.BaseMutableTreeNode;
-import dk.dtu.student.programanalysis.implementation.GeneralAnalysis;
 import dk.dtu.student.programanalysis.implementation.RootTreeNode;
 import org.antlr.v4.runtime.ParserRuleContext;
 

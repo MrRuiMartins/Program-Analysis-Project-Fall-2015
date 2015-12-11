@@ -1,7 +1,5 @@
 import dk.dtu.student.programanalysis.implementation.BaseAnalysis;
-import dk.dtu.student.programanalysis.implementation.GeneralAnalysis;
 import dk.dtu.student.programanalysis.implementation.analysis.AnalysisDetectionSigns;
-import dk.dtu.student.programanalysis.implementation.analysis.AnalysisLiveVariables;
 import dk.dtu.student.programanalysis.implementation.analysis.AnalysisReachingDefinition;
 
 import java.util.HashMap;
@@ -17,12 +15,10 @@ public class AnalysisFactory {
         analyses = new HashMap<>();
 
         AnalysisReachingDefinition rd = new AnalysisReachingDefinition();
-        AnalysisLiveVariables lv = new AnalysisLiveVariables();
-//        AnalysisDetectionSigns ds = new AnalysisDetectionSigns();
+        AnalysisDetectionSigns ds = new AnalysisDetectionSigns();
 
         analyses.put(rd.getName(), rd);
-        analyses.put(lv.getName(), lv);
-//        analyses.put(ds.getName(), ds);
+        analyses.put(ds.getName(), ds);
 
     }
 

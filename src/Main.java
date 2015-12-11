@@ -21,9 +21,12 @@ public class Main {
     public static void main(String[] args) throws Exception {
         // Check number of input
         if(args.length < 2) {
-            System.out.println("Not enough parameter! java -jar programAnalysis.jar <Analysis> <Input file> ");
+            System.out.println("Not enough parameter! java -jar programAnalysis.jar <Analysis> <Input file> " +
+                    "[Worklist Algorithm]");
             return;
         }
+
+        long startTime = System.currentTimeMillis();
 
         // Parse the analysis input
         String analysisString = args[0];
@@ -31,6 +34,17 @@ public class Main {
         // Get Analysis from factory
         AnalysisFactory analysisFactory = new AnalysisFactory();
         BaseAnalysis analysis = analysisFactory.getInstance(analysisString);
+
+        // Get Worklist algorithm if specified
+        if(args.length > 2) {
+            String worklist = args[2];
+            if(worklist.equals("LIFO")) {
+                analysis.setWorklistAlgorithm(BaseAnalysis.WorklistAlgorithm.LIFO);
+            }
+            else if(worklist.equals("FIFO")) {
+                analysis.setWorklistAlgorithm(BaseAnalysis.WorklistAlgorithm.FIFO);
+            }
+        }
 
         TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[1]));
         CommonTokenStream tokens = new CommonTokenStream(lex);
@@ -66,19 +80,15 @@ public class Main {
 
             System.out.println(analysis.printResult());
 
-//            CommonTree t = (CommonTree) parserResult.getTree();
-//            CommonTree t2 = (CommonTree) t.getChild(0);
-//            int startToken = t2.getTokenStartIndex();
-//            int stopToken = t2.getTokenStopIndex();
-//            CommonToken token = (CommonToken) t2.getToken();
-//            System.out.println(token.getText());
-//
-//            if (parserResult != null) {
-//                CommonTree tree = (CommonTree) parserResult.tree;
-//                System.out.println(tree.toStringTree());
-//            }
         } catch (RecognitionException e) {
             e.printStackTrace();
+        } finally {
+            long endTime   = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            System.out.println("Program is running for: " + totalTime + " ms");
+
+            System.out.println("Iteration : " + analysis.getNumberOfIteration() + " times");
+
         }
 
     }

@@ -1,9 +1,9 @@
 program
-int a;
-if (a < 15) then
-a := 4+2;
+int a[100];
+if (a[2] < 15) then
+a[2] := 4+2;
 else
-a := 3;
+a[2] := 3;
 fi
-read a;
+read a[5];
 end

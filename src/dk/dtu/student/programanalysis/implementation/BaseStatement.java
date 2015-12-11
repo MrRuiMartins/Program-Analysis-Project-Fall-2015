@@ -1,7 +1,6 @@
 package dk.dtu.student.programanalysis.implementation;
 
 import dk.dtu.student.programanalysis.implementation.graph.FlowGraph;
-import dk.dtu.student.programanalysis.implementation.label.LabelLine;
 import dk.dtu.student.programanalysis.implementation.set.IntervalSet;
 import org.antlr.runtime.CommonToken;
 import org.jgrapht.DirectedGraph;
